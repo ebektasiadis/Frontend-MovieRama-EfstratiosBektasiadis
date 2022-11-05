@@ -1,0 +1,156 @@
+#review-container {
+  display: flex;
+  flex-direction: column;
+  row-gap: 5px;
+  border-radius: 5px;
+  overflow: auto;
+  grid-area: reviews;
+}
+
+#similar-container {
+  height: 100%;
+  display: flex;
+  gap: 10px;
+  overflow: hidden;
+  border-radius: 5px;
+  grid-area: similar;
+}
+
+[data-template="modal"] {
+  z-index: 2;
+  background: rgb(0, 0, 0, 0.8);
+  backdrop-filter: blur(10px);
+
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+[data-template="modal"] .modal {
+  height: auto;
+  background: var(--primary-color);
+  border-radius: 5px;
+  filter: drop-shadow(0px 0px 8px #000000);
+  position: relative;
+  margin: 0 20%;
+
+  animation: opacity 1s;
+}
+
+[data-template="modal"] .cross {
+  filter: invert(1);
+  grid-area: cross;
+  justify-self: right;
+}
+
+[data-template="modal"] .cross:hover {
+  cursor: pointer;
+}
+
+[data-template="modal"] .modal-header {
+  display: grid;
+  align-items: center;
+  grid-template-areas: "title . cross";
+  padding: 20px;
+  border-bottom: 1px solid var(--secondary-color);
+}
+
+[data-template="modal"] .modal-body {
+  height: 80vh;
+  padding: 20px;
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  grid-template-rows: 65% 35%;
+  grid-template-areas:
+    "trailer reviews"
+    "similar similar";
+  gap: 10px;
+}
+
+[data-template="modal"] .modal-body.no-reviews {
+  grid-template-columns: 1fr;
+  grid-template-rows: 65% 35%;
+  grid-template-areas:
+    "trailer"
+    "similar";
+}
+
+[data-template="modal"] .modal-body.no-trailer {
+  grid-template-columns: 1fr;
+  grid-template-rows: 65% 35%;
+  grid-template-areas:
+    "reviews"
+    "similar";
+}
+
+[data-template="modal"] .modal-body.no-trailer.no-reviews {
+  height: 60%;
+  grid-template-rows: 100%;
+  grid-template-areas: "similar";
+}
+
+#review-container {
+  grid-area: reviews;
+}
+
+#similar-container {
+  grid-area: similar;
+}
+
+[data-template="modal"] [data-field-id="header"] {
+  color: white;
+  font-weight: lighter;
+}
+
+[data-template="modal"] [data-field-id="trailer"] {
+  display: none;
+}
+
+[data-template="modal"] [data-field-id="trailer"][src] {
+  display: block;
+  border: none;
+  border-radius: 5px;
+  grid-area: trailer;
+  height: 100%;
+  width: 100%;
+}
+
+@media only screen and (max-width: 1440px) {
+  [data-template="modal"] .modal {
+    margin: 2%;
+  }
+
+  [data-template="modal"] .modal-body {
+    max-height: 90vh;
+    overflow: auto;
+    grid-template-rows: 500px 300px 500px;
+    grid-template-columns: 90vw;
+    grid-template-areas:
+      "trailer"
+      "similar"
+      "reviews";
+  }
+
+  [data-template="modal"] .modal-body.no-trailer {
+    grid-template-rows: 300px 1000px;
+    grid-template-columns: 100%;
+    grid-template-areas:
+      "similar"
+      "reviews";
+  }
+}
+
+@keyframes opacity {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}

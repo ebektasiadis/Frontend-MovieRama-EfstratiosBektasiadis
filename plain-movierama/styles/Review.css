@@ -1,0 +1,42 @@
+[data-template="review"] {
+  border-radius: 5px;
+  background: white;
+}
+
+[data-template="review"] .review-header {
+  display: grid;
+  background: var(--light-blue);
+  border-radius: 5px 5px 0 0;
+  grid-template-columns: auto 100%;
+  grid-template-areas:
+    "avatar author"
+    "avatar created-at";
+}
+
+[data-template="review"] .review-header,
+[data-template="review"] .review-body {
+  padding: 20px 10px;
+}
+
+[data-template="review"] [data-field-id="avatar"] {
+  border-radius: 5px;
+  grid-area: avatar;
+  margin-right: 10px;
+  width: 64px;
+}
+
+[data-template="review"] [data-field-id="author"] {
+  grid-area: author;
+  align-self: end;
+}
+
+[data-template="review"] [data-field-id="created-at"] {
+  grid-area: created-at;
+  align-self: start;
+}
+
+@media only screen and (max-width: 992px) {
+  [data-template="review"] [data-field-id="avatar"] {
+    width: 32px;
+  }
+}

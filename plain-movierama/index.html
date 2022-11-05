@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta
+      name="description"
+      content="MovieRama is yet another movie catalog where users can check the movies of the week, search for movies and view details about them."
+    />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="msapplication-TileColor" content="#2b5797" />
+    <meta name="theme-color" content="#ffffff" />
+    <link rel="canonical" href="/" />
+    <link
+      rel="apple-touch-icon"
+      sizes="180x180"
+      href="images/apple-touch-icon.png"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="32x32"
+      href="images/favicon-32x32.png"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="16x16"
+      href="images/favicon-16x16.png"
+    />
+    <link rel="manifest" href="images/site.webmanifest" />
+    <link rel="mask-icon" href="images/safari-pinned-tab.svg" color="#5bbad5" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles/index.css" />
+    <link rel="stylesheet" href="styles/Card.css" />
+    <link rel="stylesheet" href="styles/CardDetailed.css" />
+    <link rel="stylesheet" href="styles/Modal.css" />
+    <link rel="stylesheet" href="styles/Review.css" />
+    <title>MovieRama</title>
+  </head>
+  <body>
+    <header>
+      <div onclick="window.location.reload()" id="logo">
+        <img src="images/popcorn.svg" alt="popcorn logo" />
+        <h1>MovieRama</h1>
+      </div>
+      <div id="searchbar">
+        <input
+          id="search-input"
+          type="text"
+          placeholder="Search a movie..."
+          aria-label="Search a movie"
+        />
+        <div id="shortcut" aria-hidden="true">
+          <kbd>CTRL</kbd>
+          <p>+</p>
+          <kbd>F</kbd>
+        </div>
+      </div>
+    </header>
+    <main>
+      <section id="movie-container"></section>
+    </main>
+    <!-- Templates -->
+    <template id="card">
+      <article>
+        <img loading="lazy" data-field-id="poster" alt="" />
+      </article>
+    </template>
+
+    <template id="card-detailed">
+      <article>
+        <img loading="lazy" data-field-id="poster" alt="" />
+        <div class="details">
+          <h2 data-field-id="title"></h2>
+          <p data-field-id="release-year"></p>
+          <ul data-field-id="genres"></ul>
+          <p data-field-id="rating"></p>
+        </div>
+        <p data-field-id="overview"></p>
+      </article>
+    </template>
+
+    <template id="modal">
+      <div>
+        <div class="modal">
+          <div class="modal-header">
+            <p data-field-id="header"></p>
+            <img class="cross" src="images/icons/close.svg" alt="close" />
+          </div>
+          <div class="modal-body">
+            <iframe data-field-id="trailer"></iframe>
+            <section id="review-container"></section>
+            <section id="similar-container"></section>
+          </div>
+        </div>
+      </div>
+    </template>
+
+    <template id="review">
+      <article>
+        <div class="review-header">
+          <img loading="lazy" data-field-id="avatar" />
+          <p data-field-id="author"></p>
+          <p data-field-id="created-at"></p>
+        </div>
+        <div class="review-body">
+          <p data-field-id="content"></p>
+        </div>
+      </article>
+    </template>
+
+    <!-- Scripts -->
+    <script src="scripts/moviedb.js"></script>
+    <script src="scripts/component.js"></script>
+    <script src="scripts/components/Card.js"></script>
+    <script src="scripts/components/CardDetailed.js"></script>
+    <script src="scripts/components/Modal.js"></script>
+    <script src="scripts/components/Review.js"></script>
+    <script src="scripts/utils.js"></script>
+    <script src="scripts/index.js"></script>
+  </body>
+</html>
