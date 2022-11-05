@@ -1,3 +1,5 @@
+import { useRef } from "react";
+import { GlobalHotKeys } from "react-hotkeys";
 import styled from "styled-components";
 
 const StyledHeader = styled.header`
@@ -70,24 +72,40 @@ interface IHeaderProps {
 }
 
 function Header({ query, setQuery }: IHeaderProps) {
+  const searchFieldRef = useRef<HTMLInputElement>(null);
+
+  const keyMap = {
+    FOCUS_SEARCH_FIELD: "ctrl+F",
+  };
+
+  const handlers = {
+    FOCUS_SEARCH_FIELD: (e: any) => {
+      e.preventDefault();
+      if (searchFieldRef?.current) searchFieldRef.current.focus();
+    },
+  };
+
   return (
-    <StyledHeader>
-      <Logo>
-        <Image src="/logo192.png" alt="MovieRama" />
-        <LogoName>MovieRama</LogoName>
-      </Logo>
-      <SearchBar>
-        <SearchInput
-          type="text"
-          placeholder="Search a movie..."
-          onChange={(event) => setQuery(event.target.value)}
-          value={query}
-        ></SearchInput>
-        <KbdCombination>
-          <Kbd>CTRL</Kbd>+<Kbd>F</Kbd>
-        </KbdCombination>
-      </SearchBar>
-    </StyledHeader>
+    <GlobalHotKeys keyMap={keyMap} handlers={handlers}>
+      <StyledHeader>
+        <Logo>
+          <Image src="/logo192.png" alt="MovieRama" />
+          <LogoName>MovieRama</LogoName>
+        </Logo>
+        <SearchBar>
+          <SearchInput
+            type="text"
+            placeholder="Search a movie..."
+            onChange={(event) => setQuery(event.target.value)}
+            value={query}
+            ref={searchFieldRef}
+          ></SearchInput>
+          <KbdCombination>
+            <Kbd>CTRL</Kbd>+<Kbd>F</Kbd>
+          </KbdCombination>
+        </SearchBar>
+      </StyledHeader>
+    </GlobalHotKeys>
   );
 }
 
