@@ -31,14 +31,37 @@ const LogoName = styled.h1`
   color: var(--light-blue);
 `;
 
-const Searchbar = styled.input`
-  grid-area: searchbar;
+const SearchInput = styled.input`
   height: 50px;
+  width: 100%;
   border-radius: 100px;
   padding: 0 25px;
   border: none;
   outline: none;
   outline-offset: 0;
+`;
+
+const KbdCombination = styled.div`
+  display: flex;
+  gap: 1px;
+  position: absolute;
+  align-items: center;
+  justify-items: center;
+  right: 20px;
+`;
+
+const Kbd = styled.kbd`
+  padding: 5px 10px;
+  background-color: #e4e4e4;
+  border: 1px solid gray;
+  border-radius: 5px;
+`;
+
+const SearchBar = styled.div`
+  display: flex;
+  position: relative;
+  align-items: center;
+  justify-items: end;
 `;
 
 interface IHeaderProps {
@@ -53,12 +76,17 @@ function Header({ query, setQuery }: IHeaderProps) {
         <Image src="/logo192.png" alt="MovieRama" />
         <LogoName>MovieRama</LogoName>
       </Logo>
-      <Searchbar
-        type="text"
-        placeholder="Search a movie..."
-        onChange={(event) => setQuery(event.target.value)}
-        value={query}
-      ></Searchbar>
+      <SearchBar>
+        <SearchInput
+          type="text"
+          placeholder="Search a movie..."
+          onChange={(event) => setQuery(event.target.value)}
+          value={query}
+        ></SearchInput>
+        <KbdCombination>
+          <Kbd>CTRL</Kbd>+<Kbd>F</Kbd>
+        </KbdCombination>
+      </SearchBar>
     </StyledHeader>
   );
 }
