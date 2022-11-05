@@ -42,11 +42,11 @@ const Searchbar = styled.input`
 `;
 
 interface IHeaderProps {
-  searchQuery: string;
-  setSearchQuery: (value: string) => void;
+  query: string;
+  setQuery: (value: string) => void;
 }
 
-function Header({ searchQuery, setSearchQuery }: IHeaderProps) {
+function Header({ query, setQuery }: IHeaderProps) {
   return (
     <StyledHeader>
       <Logo>
@@ -56,8 +56,8 @@ function Header({ searchQuery, setSearchQuery }: IHeaderProps) {
       <Searchbar
         type="text"
         placeholder="Search a movie..."
-        onChange={(event) => setSearchQuery(event.target.value)}
-        value={searchQuery}
+        onChange={(event) => setQuery(event.target.value)}
+        value={query}
       ></Searchbar>
     </StyledHeader>
   );

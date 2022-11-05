@@ -2,10 +2,11 @@ import { useState } from "react";
 import Header from "./components/Header";
 
 function App() {
-  const [searchQuery, setSearchQuery] = useState("");
+  const [query, setQuery] = useState("");
+
   return (
     <div className="App">
-      <Header searchQuery={searchQuery} setSearchQuery={setSearchQuery} />
+      <Header query={query} setQuery={setQuery} />
     </div>
   );
 }
