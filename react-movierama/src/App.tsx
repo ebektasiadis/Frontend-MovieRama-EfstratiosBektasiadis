@@ -1,5 +1,14 @@
+import { useState } from "react";
+import Header from "./components/Header";
+
 function App() {
-  return <div className="App"></div>;
+  const [query, setQuery] = useState("");
+
+  return (
+    <div className="App">
+      <Header query={query} setQuery={setQuery} />
+    </div>
+  );
 }
 
 export default App;
