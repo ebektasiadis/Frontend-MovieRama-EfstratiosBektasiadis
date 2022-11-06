@@ -60,7 +60,7 @@ const GenreList = styled.p`
   list-style-type: none;
 `;
 
-const Detail = styled.p`
+const Detail = styled.span`
   color: var(--light-gray);
 `;
 

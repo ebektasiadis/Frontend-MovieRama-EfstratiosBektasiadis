@@ -15,12 +15,24 @@ const StyledHeader = styled.header`
   padding: 0 50px;
   height: 5em;
   align-items: center;
+
+  @media screen and (max-width: 1440px) {
+    padding: 0 10px;
+  }
+
+  @media screen and (max-width: 992px) {
+    grid-template-areas: "searchbar searchbar logo";
+  }
 `;
 
 const Logo = styled.div`
   grid-area: logo;
   display: flex;
   align-items: center;
+
+  @media screen and (max-width: 992px) {
+    justify-content: right;
+  }
 `;
 
 const Image = styled.img`
@@ -31,6 +43,10 @@ const Image = styled.img`
 const LogoName = styled.h1`
   font-size: 2em;
   color: var(--light-blue);
+
+  @media screen and (max-width: 992px) {
+    display: none;
+  }
 `;
 
 const SearchInput = styled.input`
@@ -43,6 +59,13 @@ const SearchInput = styled.input`
   outline-offset: 0;
 `;
 
+const SearchBar = styled.div`
+  grid-area: searchbar;
+  display: flex;
+  position: relative;
+  align-items: center;
+`;
+
 const KbdCombination = styled.div`
   display: flex;
   gap: 1px;
@@ -50,6 +73,10 @@ const KbdCombination = styled.div`
   align-items: center;
   justify-items: center;
   right: 20px;
+
+  @media screen and (max-width: 992px) {
+    display: none;
+  }
 `;
 
 const Kbd = styled.kbd`
@@ -57,13 +84,6 @@ const Kbd = styled.kbd`
   background-color: #e4e4e4;
   border: 1px solid gray;
   border-radius: 5px;
-`;
-
-const SearchBar = styled.div`
-  display: flex;
-  position: relative;
-  align-items: center;
-  justify-items: end;
 `;
 
 interface IHeaderProps {
