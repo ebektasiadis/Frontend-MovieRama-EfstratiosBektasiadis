@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react";
+import { useRef } from "react";
 import { GlobalHotKeys } from "react-hotkeys";
 import styled from "styled-components";
 
@@ -108,7 +108,7 @@ function Header({ query, setQuery }: IHeaderProps) {
   return (
     <GlobalHotKeys keyMap={keyMap} handlers={handlers}>
       <StyledHeader>
-        <Logo>
+        <Logo onClick={() => window.location.reload()}>
           <Image src="/logo192.png" alt="MovieRama" />
           <LogoName>MovieRama</LogoName>
         </Logo>

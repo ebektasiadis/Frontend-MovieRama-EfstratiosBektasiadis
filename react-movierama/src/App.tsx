@@ -1,7 +1,13 @@
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useState, createContext } from "react";
 import Header from "./components/Header";
 import useMovieDB from "./hooks/useMovieDB";
 import MovieContainer from "./components/MovieContainer";
+import MovieDetailsModal from "./components/modals/MovieDetailsModal";
+
+export const MovieContext = createContext({
+  selectedMovie: 0,
+  setSelectedMovie: (id: number) => {},
+});
 
 const App = () => {
   const [query, setQuery] = useState("");
@@ -9,6 +15,7 @@ const App = () => {
   const [page, setPage] = useState(1);
   const [hasMore, setHasMore] = useState(true);
   const [movies, setMovies] = useState<any[]>([]);
+  const [selectedMovie, setSelectedMovie] = useState(0);
 
   const onChangeHandler = useCallback((query: string) => setQuery(query), []);
 
@@ -39,16 +46,32 @@ const App = () => {
     return () => clearTimeout(timeout);
   }, [query]);
 
+  useEffect(() => {
+    if (selectedMovie) {
+      document.body.style.overflow = "hidden";
+      return;
+    }
+    document.body.style.overflow = "auto";
+  }, [selectedMovie]);
+
   return (
-    <div className="App">
-      <Header query={query} setQuery={onChangeHandler} />
-      <MovieContainer
-        movies={movies}
-        infinite={true}
-        onIntersect={setPage}
-        hasMore={hasMore}
-      />
-    </div>
+    <MovieContext.Provider value={{ selectedMovie, setSelectedMovie }}>
+      <div className="App">
+        <Header query={query} setQuery={onChangeHandler} />
+        <MovieContainer
+          movies={movies}
+          infinite={true}
+          onIntersect={setPage}
+          hasMore={hasMore}
+        />
+        {selectedMovie ? (
+          <MovieDetailsModal
+            movieId={selectedMovie}
+            onHide={() => setSelectedMovie(0)}
+          ></MovieDetailsModal>
+        ) : null}
+      </div>
+    </MovieContext.Provider>
   );
 };
 

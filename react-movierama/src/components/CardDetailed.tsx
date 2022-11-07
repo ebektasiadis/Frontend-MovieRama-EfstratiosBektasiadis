@@ -1,5 +1,6 @@
-import { forwardRef } from "react";
+import { forwardRef, useContext } from "react";
 import styled from "styled-components";
+import { MovieContext } from "../App";
 
 const StyledCardDetailed = styled.article`
   height: 300px;
@@ -100,8 +101,9 @@ const CardDetailed = forwardRef<any, ICardDetailedProps>(
     }: ICardDetailedProps,
     ref
   ) => {
+    const { setSelectedMovie } = useContext(MovieContext);
     return (
-      <StyledCardDetailed ref={ref}>
+      <StyledCardDetailed ref={ref} onClick={() => setSelectedMovie(id)}>
         <Poster
           loading="lazy"
           alt={title}

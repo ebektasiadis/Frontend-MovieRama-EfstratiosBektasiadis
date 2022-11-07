@@ -1,5 +1,6 @@
-import { forwardRef } from "react";
+import { forwardRef, useContext } from "react";
 import styled from "styled-components";
+import { MovieContext } from "../App";
 
 const StyledCard = styled.article`
   background-color: var(--primary-color);
@@ -33,14 +34,16 @@ const Poster = styled.img`
 `;
 
 interface ICardProps {
+  id: number;
   title: string;
   poster: string | null;
 }
 
 const Card = forwardRef<any, ICardProps>(
-  ({ title, poster }: ICardProps, ref) => {
+  ({ id, title, poster }: ICardProps, ref) => {
+    const { setSelectedMovie } = useContext(MovieContext);
     return (
-      <StyledCard ref={ref}>
+      <StyledCard ref={ref} onClick={() => setSelectedMovie(id)}>
         <Poster
           loading="lazy"
           alt={title}
