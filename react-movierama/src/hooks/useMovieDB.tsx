@@ -81,16 +81,16 @@ const useFetchMovieSimilar = ({ id, instance }: any) => {
   return useRequest(instance, `/movie/${id}/similar`, id);
 };
 
-const useFetchNowPlaying = ({ page, instance }: any) => {
+const useFetchNowPlaying = ({ page, instance, canExec }: any) => {
   const options = useMemo(() => ({ params: { page } }), [page]);
 
-  return useRequest(instance, "/movie/now_playing", page >= 1, options);
+  return useRequest(instance, "/movie/now_playing", canExec, options);
 };
 
-const useFetchSearchResults = ({ page, query, instance }: any) => {
+const useFetchSearchResults = ({ page, query, instance, canExec }: any) => {
   const options = useMemo(() => ({ params: { page, query } }), [page, query]);
 
-  return useRequest(instance, "/search/movie", query !== "", options);
+  return useRequest(instance, "/search/movie", canExec, options);
 };
 
 const useFetchGenres = ({ instance }: any) => {
@@ -137,11 +137,11 @@ const useMovieDB = (apiKey: string, language = "en-US") => {
   );
 
   return {
-    useFetchNowPlaying: (page: number) =>
-      useFetchNowPlaying({ page, instance }),
+    useFetchNowPlaying: (page: number, canExec: boolean) =>
+      useFetchNowPlaying({ page, instance, canExec }),
     useFetchGenres: () => useFetchGenres({ instance }),
-    useFetchSearchResults: (page: number, query: string) =>
-      useFetchSearchResults({ page, query, instance }),
+    useFetchSearchResults: (page: number, query: string, canExec: boolean) =>
+      useFetchSearchResults({ page, query, instance, canExec }),
 
     useFetchMovieDetails: (id: number) =>
       useFetchMovieDetails({ id, instance }),

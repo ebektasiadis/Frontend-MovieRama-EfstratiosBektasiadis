@@ -1,4 +1,4 @@
-import { forwardRef, useContext } from "react";
+import { forwardRef, useContext, useMemo } from "react";
 import styled from "styled-components";
 import { MovieContext } from "../App";
 
@@ -54,7 +54,7 @@ const Title = styled.h2`
   text-overflow: ellipsis;
 `;
 
-const GenreList = styled.p`
+const GenreList = styled.ul`
   display: flex;
   flex-wrap: wrap;
   gap: 5px;
@@ -101,7 +101,15 @@ const CardDetailed = forwardRef<any, ICardDetailedProps>(
     }: ICardDetailedProps,
     ref
   ) => {
-    const { setSelectedMovie } = useContext(MovieContext);
+    const { genres: genreLabels, setSelectedMovie } = useContext(MovieContext);
+
+    const genreListItems = useMemo(() => {
+      if (!genreLabels.length) return [];
+      let labels = new Map();
+      genreLabels.forEach(({ id, name }: any) => labels.set(id, name));
+      return genres.map((id) => <li key={id}>{labels.get(id)}</li>);
+    }, [genreLabels, genres]);
+
     return (
       <StyledCardDetailed
         data-testid="card"
@@ -122,7 +130,15 @@ const CardDetailed = forwardRef<any, ICardDetailedProps>(
           <Title>{title}</Title>
           <Detail>{`Released at ${releaseYear}`}</Detail>
           {genres.length ? (
+            {genres.length ? (
             <Detail data-testid="genre-list">
+              <GenreList data-testid>{genreListItems}</GenreList>
+            </Detail>
+          ) : null}
+          {ratingCount > 0 ? (
+            <Detail>{`Rating: ${rating} / 10 (${ratingCount} votes)`}</Detail>
+          ) : null}
+          <Detail data-testid="genre-list">
               <GenreList data-testid>{genres.join(" ")}</GenreList>
             </Detail>
           ) : null}

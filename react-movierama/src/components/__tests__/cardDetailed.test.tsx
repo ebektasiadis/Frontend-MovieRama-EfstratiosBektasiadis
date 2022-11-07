@@ -31,6 +31,7 @@ describe("CardDetailed", () => {
 
   it("should trigger a set event on click with the movie ID", () => {
     const value = {
+      genres: [],
       selectedMovie: 0,
       setSelectedMovie: jest.fn(),
     };
