@@ -65,6 +65,22 @@ const requestFailedAction = (payload: any): Action => ({
   payload,
 });
 
+const useFetchMovieDetails = ({ id, instance }: any) => {
+  return useRequest(instance, `/movie/${id}`, id);
+};
+
+const useFetchMovieVideos = ({ id, instance }: any) => {
+  return useRequest(instance, `/movie/${id}/videos`, id);
+};
+
+const useFetchMovieReviews = ({ id, instance }: any) => {
+  return useRequest(instance, `/movie/${id}/reviews`, id);
+};
+
+const useFetchMovieSimilar = ({ id, instance }: any) => {
+  return useRequest(instance, `/movie/${id}/similar`, id);
+};
+
 const useFetchNowPlaying = ({ page, instance }: any) => {
   const options = useMemo(() => ({ params: { page } }), [page]);
 
@@ -126,6 +142,14 @@ const useMovieDB = (apiKey: string, language = "en-US") => {
     useFetchGenres: () => useFetchGenres({ instance }),
     useFetchSearchResults: (page: number, query: string) =>
       useFetchSearchResults({ page, query, instance }),
+
+    useFetchMovieDetails: (id: number) =>
+      useFetchMovieDetails({ id, instance }),
+    useFetchMovieVideos: (id: number) => useFetchMovieVideos({ id, instance }),
+    useFetchMovieReviews: (id: number) =>
+      useFetchMovieReviews({ id, instance }),
+    useFetchMovieSimilar: (id: number) =>
+      useFetchMovieSimilar({ id, instance }),
   };
 };
 
