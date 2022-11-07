@@ -1,7 +1,7 @@
 import { forwardRef } from "react";
 import styled from "styled-components";
 
-const StyledCard = styled.article`
+const StyledCardDetailed = styled.article`
   height: 300px;
   display: grid;
   grid-template:
@@ -75,9 +75,9 @@ const Overview = styled.p`
   text-align: justify;
 `;
 
-interface ICardProps {
+interface ICardDetailedProps {
   id: number;
-  poster: string;
+  poster: string | null;
   title: string;
   releaseYear: string;
   genres: number[];
@@ -86,7 +86,7 @@ interface ICardProps {
   overview: string;
 }
 
-const Card = forwardRef<any, ICardProps>(
+const CardDetailed = forwardRef<any, ICardDetailedProps>(
   (
     {
       id,
@@ -97,11 +97,11 @@ const Card = forwardRef<any, ICardProps>(
       rating,
       ratingCount,
       overview,
-    }: ICardProps,
+    }: ICardDetailedProps,
     ref
   ) => {
     return (
-      <StyledCard ref={ref}>
+      <StyledCardDetailed ref={ref}>
         <Poster
           loading="lazy"
           alt={title}
@@ -120,9 +120,9 @@ const Card = forwardRef<any, ICardProps>(
           <Detail>{`Rating: ${rating} / 10 (${ratingCount} votes)`}</Detail>
         </Details>
         <Overview>{overview}</Overview>
-      </StyledCard>
+      </StyledCardDetailed>
     );
   }
 );
 
-export default Card;
+export default CardDetailed;

@@ -1,4 +1,4 @@
-import { useRef } from "react";
+import { useEffect, useRef } from "react";
 import { GlobalHotKeys } from "react-hotkeys";
 import styled from "styled-components";
 

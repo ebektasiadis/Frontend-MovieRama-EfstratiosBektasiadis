@@ -1,6 +1,6 @@
 import { useCallback, useRef } from "react";
 import styled from "styled-components";
-import Card from "./Card";
+import Card from "./CardDetailed";
 
 const Grid = styled.div`
   padding: 50px;
@@ -15,33 +15,32 @@ const Grid = styled.div`
   }
 `;
 
-interface ICardContainerProps {
-  cards: any[];
+interface IMovieContainerProps {
+  movies: any[];
   infinite: boolean;
   onIntersect?: Function;
   hasMore?: boolean;
 }
 
-type OptionalCardContainerProps =
-  | ({ infinite: false } & ICardContainerProps)
-  | ({ infinite: true } & Required<ICardContainerProps>);
+type OptionalMovieContainerProps =
+  | ({ infinite: false } & IMovieContainerProps)
+  | ({ infinite: true } & Required<IMovieContainerProps>);
 
-function CardContainer({
-  cards,
+function MovieContainer({
+  movies,
   infinite = false,
   onIntersect,
   hasMore,
-}: OptionalCardContainerProps) {
+}: OptionalMovieContainerProps) {
   const observer: any = useRef();
 
   const lastCardListItem = useCallback(
     (node: any) => {
-      if (observer.current) observer.current.disconnect();
-
       if (!infinite) return;
+      if (observer.current) observer.current.disconnect();
       observer.current = new IntersectionObserver((entries) => {
         if (entries[0].isIntersecting && hasMore && onIntersect) {
-          onIntersect();
+          onIntersect((prev: number) => prev + 1);
         }
       });
       if (node) observer.current.observe(node);
@@ -51,7 +50,7 @@ function CardContainer({
 
   const mapStateToCards = () => {
     const ids = new Set();
-    return cards.map((movie: any, index: number) => {
+    return movies.map((movie: any, index: number) => {
       /**
        * Issue with Movie DB sometimes responsing on different pages
        * with the same movie, thus causing issues on Virtual DOM as
@@ -62,11 +61,11 @@ function CardContainer({
 
       return (
         <Card
-          ref={cards.length === index + 1 ? lastCardListItem : undefined}
+          ref={movies.length === index + 1 ? lastCardListItem : undefined}
           key={movie.id}
           id={movie.id}
           poster={movie.poster_path}
-          title={movie.title || movie.original_title}
+          title={movie.title}
           releaseYear={movie.release_date}
           genres={movie.genre_ids}
           rating={movie.vote_average}
@@ -80,4 +79,4 @@ function CardContainer({
   return <Grid>{mapStateToCards()}</Grid>;
 }
 
-export default CardContainer;
+export default MovieContainer;
