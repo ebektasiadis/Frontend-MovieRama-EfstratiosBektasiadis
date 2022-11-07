@@ -130,17 +130,12 @@ const CardDetailed = forwardRef<any, ICardDetailedProps>(
           <Title>{title}</Title>
           <Detail>{`Released at ${releaseYear}`}</Detail>
           {genres.length ? (
-            {genres.length ? (
             <Detail data-testid="genre-list">
               <GenreList data-testid>{genreListItems}</GenreList>
             </Detail>
           ) : null}
           {ratingCount > 0 ? (
             <Detail>{`Rating: ${rating} / 10 (${ratingCount} votes)`}</Detail>
-          ) : null}
-          <Detail data-testid="genre-list">
-              <GenreList data-testid>{genres.join(" ")}</GenreList>
-            </Detail>
           ) : null}
           <Detail>{`Rating: ${rating} / 10 (${ratingCount} votes)`}</Detail>
         </Details>
