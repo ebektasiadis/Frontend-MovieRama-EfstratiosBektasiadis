@@ -43,8 +43,13 @@ const Card = forwardRef<any, ICardProps>(
   ({ id, title, poster }: ICardProps, ref) => {
     const { setSelectedMovie } = useContext(MovieContext);
     return (
-      <StyledCard ref={ref} onClick={() => setSelectedMovie(id)}>
+      <StyledCard
+        ref={ref}
+        data-testid="card"
+        onClick={() => setSelectedMovie(id)}
+      >
         <Poster
+          data-testid="poster-img"
           loading="lazy"
           alt={title}
           src={
