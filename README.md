@@ -6,7 +6,7 @@
 
 🎬 **MovieRama** is yet another movie catalog where users can check the movies of the week, search for movies and view details about them. All the information presented in this application is being fetched by [MovieDB](https://www.themoviedb.org/). So, kudos to them.
 
-### Plain HTML, JS, CSS Version:
+### Plain HTML, JS, CSS Version
 
 This version of Movierama has been developed with no dependencies on third party libraries. Thus, no bundling nor testing is included on that version. It was a great opportunity to learn some new things on JavaScript and also realise how helpful all those fully fledged frameworks are.
 
