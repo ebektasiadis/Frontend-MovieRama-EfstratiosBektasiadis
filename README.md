@@ -29,7 +29,7 @@ REACT_APP_MOVIEDB_API_KEY | ✅ | The API key that is being used when making req
 🎬 Rework on Movie Modal to fit **more information** on an **easier-to-digest** way
 🎬 End to end testing using **Cypress**
 
-##Screenshots
+## Screenshots
 
 <p align="center">
 <img src="https://i.ibb.co/YXCnP2q/movierama1080p.png" height="300px" alt="Desktop landing page">
