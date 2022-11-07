@@ -1,53 +1,55 @@
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import Header from "./components/Header";
 import useMovieDB from "./hooks/useMovieDB";
+import MovieContainer from "./components/MovieContainer";
 
-function App() {
+const App = () => {
   const [query, setQuery] = useState("");
+  const [toSearch, setToSearch] = useState("");
+  const [page, setPage] = useState(1);
+  const [hasMore, setHasMore] = useState(true);
   const [movies, setMovies] = useState<any[]>([]);
-  const { useFetchNowPlaying } = useMovieDB(
+
+  const onChangeHandler = useCallback((query: string) => setQuery(query), []);
+
+  const { useFetchNowPlaying, useFetchSearchResults } = useMovieDB(
     process.env.REACT_APP_MOVIEDB_API_KEY || ""
   );
 
-  const { isLoading, data, hasMore, fetchNext } = useFetchNowPlaying();
-  const observer: any = useRef();
-
-  const lastMovieRef = useCallback(
-    (node: any) => {
-      if (isLoading) return;
-      if (observer.current) observer.current.disconnect();
-      observer.current = new IntersectionObserver((entries) => {
-        if (entries[0].isIntersecting && hasMore) {
-          fetchNext();
-        }
-      });
-      if (node) observer.current.observe(node);
-    },
-    [isLoading, hasMore, fetchNext]
-  );
+  const { data, isLoading } = useFetchNowPlaying(page);
+  const { data: searchResults, isLoading: isLoadingSearchResults } =
+    useFetchSearchResults(page, toSearch);
 
   useEffect(() => {
-    if (isLoading) return;
-    setMovies((prev) => [...prev, ...(data || [])]);
-  }, [data]);
+    if ((query && isLoadingSearchResults) || (!query && isLoading)) return;
+    setHasMore(page <= (query ? searchResults.total_pages : data.total_pages));
+    setMovies((prev) => [
+      ...(page > 1 ? prev : []),
+      ...(query ? searchResults.results : data.results),
+    ]);
+  }, [isLoading, isLoadingSearchResults, page, query, data, searchResults]);
 
-  const getMovieTitles = () => {
-    return movies.map((movie: any, index: number) => (
-      <h1
-        ref={movies.length === index + 1 ? lastMovieRef : undefined}
-        key={movie.id}
-      >
-        {movie.title}
-      </h1>
-    ));
-  };
+  useEffect(() => {
+    const timeout = setTimeout(() => {
+      setPage(1);
+      setToSearch(query);
+      window.scrollTo({ top: 0, left: 0 });
+    }, 300);
+
+    return () => clearTimeout(timeout);
+  }, [query]);
 
   return (
     <div className="App">
-      <Header query={query} setQuery={setQuery} />
-      {getMovieTitles()}
+      <Header query={query} setQuery={onChangeHandler} />
+      <MovieContainer
+        movies={movies}
+        infinite={true}
+        onIntersect={setPage}
+        hasMore={hasMore}
+      />
     </div>
   );
-}
+};
 
 export default App;
