@@ -12,6 +12,11 @@ const Grid = styled.div`
     padding: 10px;
     grid-template-columns: repeat(2, 1fr);
   }
+
+  @media screen and (max-width: 992px) {
+    padding: 10px;
+    grid-template-columns: 1fr;
+  }
 `;
 
 interface IMovieContainerProps {
