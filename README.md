@@ -21,13 +21,13 @@ REACT_APP_MOVIEDB_API_KEY | ✅ | The API key that is being used when making req
 
 ## Feature Versions
 
-🎬 Search with filters such as **actors**, **categories**, **rating**
-🎬 Layout selection through **Grid**, **Category based rows**, **Poster Only**
-🎬 Theme Switch between **Light**, **Dark** and a super cool **Neon**
-🎬 **Watch Later** list
-🎬 Access to **TV Series**
-🎬 Rework on Movie Modal to fit **more information** on an **easier-to-digest** way
-🎬 End to end testing using **Cypress**
+- 🎬 Search with filters such as **actors**, **categories**, **rating**
+- 🎬 Layout selection through **Grid**, **Category based rows**, **Poster Only**
+- 🎬 Theme Switch between **Light**, **Dark** and a super cool **Neon**
+- 🎬 **Watch Later** list
+- 🎬 Access to **TV Series**
+- 🎬 Rework on Movie Modal to fit **more information** on an **easier-to-digest** way
+- 🎬 End to end testing using **Cypress**
 
 ## Screenshots
 
