@@ -103,7 +103,11 @@ const CardDetailed = forwardRef<any, ICardDetailedProps>(
   ) => {
     const { setSelectedMovie } = useContext(MovieContext);
     return (
-      <StyledCardDetailed ref={ref} onClick={() => setSelectedMovie(id)}>
+      <StyledCardDetailed
+        data-testid="card"
+        ref={ref}
+        onClick={() => setSelectedMovie(id)}
+      >
         <Poster
           loading="lazy"
           alt={title}
@@ -112,13 +116,16 @@ const CardDetailed = forwardRef<any, ICardDetailedProps>(
               ? `https://image.tmdb.org/t/p/w200/${poster}`
               : `/movie-poster-placeholder.png`
           }
+          data-testid="poster-img"
         />
         <Details>
           <Title>{title}</Title>
           <Detail>{`Released at ${releaseYear}`}</Detail>
-          <Detail>
-            <GenreList>{genres.join(" ")}</GenreList>
-          </Detail>
+          {genres.length ? (
+            <Detail data-testid="genre-list">
+              <GenreList data-testid>{genres.join(" ")}</GenreList>
+            </Detail>
+          ) : null}
           <Detail>{`Rating: ${rating} / 10 (${ratingCount} votes)`}</Detail>
         </Details>
         <Overview>{overview}</Overview>
