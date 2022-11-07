@@ -4,6 +4,10 @@
   font-family: "Roboto", sans-serif;
 }
 
+body {
+  background-color: var(--secondary-color);
+}
+
 :root {
   --primary-color: #404258;
   --secondary-color: #6b728e;
