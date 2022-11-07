@@ -1,6 +1,6 @@
 import { useCallback, useRef } from "react";
 import styled from "styled-components";
-import Card from "./CardDetailed";
+import CardDetailed from "./CardDetailed";
 
 const Grid = styled.div`
   padding: 50px;
@@ -60,7 +60,7 @@ function MovieContainer({
       ids.add(movie.id);
 
       return (
-        <Card
+        <CardDetailed
           ref={movies.length === index + 1 ? lastCardListItem : undefined}
           key={movie.id}
           id={movie.id}
