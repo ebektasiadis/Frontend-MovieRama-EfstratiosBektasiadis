@@ -5,19 +5,14 @@ type State = {
   isLoading: boolean;
   isError: boolean;
   isSuccess: boolean;
-  data?: any[];
-  error?: any[];
-  page: number;
-  totalPages: number;
-  hasMore: boolean;
+  data?: any;
+  error?: any;
 };
 
 enum ActionType {
   RequestInit = "REQUEST_INIT",
   RequestCompleted = "REQUEST_COMPLETED",
   RequestFailed = "REQUEST_FAILED",
-  IncreasePage = "INCREASE_PAGE",
-  ResetPage = "RESET_PAGE",
 }
 
 type Action = {
@@ -26,31 +21,23 @@ type Action = {
 };
 
 const initialState: State = {
-  isLoading: false,
+  isLoading: true,
   isError: false,
   isSuccess: false,
-  page: 1,
-  totalPages: 1,
-  hasMore: false,
 };
 
 const reducer = (state: State, action: Action): State => {
   switch (action.type) {
     case ActionType.RequestInit:
       return {
-        ...state,
-        isLoading: true,
-        isError: false,
-        data: undefined,
-        error: undefined,
+        ...initialState,
       };
     case ActionType.RequestCompleted:
       return {
         ...state,
         isLoading: false,
         isSuccess: true,
-        data: action.payload.results,
-        hasMore: action.payload?.total_pages > state.page,
+        data: action.payload,
       };
     case ActionType.RequestFailed:
       return {
@@ -58,16 +45,6 @@ const reducer = (state: State, action: Action): State => {
         isLoading: false,
         isError: true,
         error: action.payload,
-      };
-    case ActionType.IncreasePage:
-      return {
-        ...state,
-        page: state.page + 1,
-      };
-    case ActionType.ResetPage:
-      return {
-        ...state,
-        page: 1,
       };
     default:
       return state;
@@ -88,42 +65,46 @@ const requestFailedAction = (payload: any): Action => ({
   payload,
 });
 
-const requestIncreasePageAction = (): Action => ({
-  type: ActionType.IncreasePage,
-});
+const useFetchNowPlaying = ({ page, instance }: any) => {
+  const options = useMemo(() => ({ params: { page } }), [page]);
 
-const requestResetPageAction = (): Action => ({
-  type: ActionType.ResetPage,
-});
+  return useRequest(instance, "/movie/now_playing", page >= 1, options);
+};
 
-const useFetchNowPlaying = (instance: AxiosInstance) => {
+const useFetchSearchResults = ({ page, query, instance }: any) => {
+  const options = useMemo(() => ({ params: { page, query } }), [page, query]);
+
+  return useRequest(instance, "/search/movie", query !== "", options);
+};
+
+const useFetchGenres = ({ instance }: any) => {
+  return useRequest(instance, "/genre/movie/list", true);
+};
+
+const useRequest = (
+  instance: AxiosInstance,
+  url: string,
+  exec: boolean,
+  options?: any
+) => {
   const [state, dispatch] = useReducer(reducer, initialState);
 
   useEffect(() => {
-    (async () => {
-      dispatch(requestInitAction());
+    const main = async () => {
       try {
-        const response = await instance.get("/movie/now_playing", {
-          params: {
-            page: state.page,
-          },
+        dispatch(requestInitAction());
+        const response = await instance.get(url, {
+          ...options,
         });
         dispatch(requestCompleteAction(response.data));
       } catch (error) {
         dispatch(requestFailedAction(error));
       }
-    })();
-  }, [instance, state.page]);
+    };
+    if (exec) main();
+  }, [instance, url, options, exec]);
 
-  const fetchNext = () => {
-    if (state.hasMore) {
-      dispatch(requestIncreasePageAction());
-    }
-  };
-
-  return () => {
-    return { ...state, fetchNext };
-  };
+  return { ...state };
 };
 
 const useMovieDB = (apiKey: string, language = "en-US") => {
@@ -140,7 +121,11 @@ const useMovieDB = (apiKey: string, language = "en-US") => {
   );
 
   return {
-    useFetchNowPlaying: useFetchNowPlaying(instance),
+    useFetchNowPlaying: (page: number) =>
+      useFetchNowPlaying({ page, instance }),
+    useFetchGenres: () => useFetchGenres({ instance }),
+    useFetchSearchResults: (page: number, query: string) =>
+      useFetchSearchResults({ page, query, instance }),
   };
 };
 
