@@ -13,6 +13,7 @@ export const ModalBackground = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
+  overflow: hidden;
 `;
 
 export const StyledModal = styled.div`
@@ -21,6 +22,15 @@ export const StyledModal = styled.div`
   filter: drop-shadow(0px 0px 8px #000000);
   position: relative;
   animation: opacity 1s;
+
+  @keyframes opacity {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
 `;
 
 export const Header = styled.div`
