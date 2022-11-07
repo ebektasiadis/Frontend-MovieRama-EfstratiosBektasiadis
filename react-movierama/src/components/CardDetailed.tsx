@@ -137,7 +137,6 @@ const CardDetailed = forwardRef<any, ICardDetailedProps>(
           {ratingCount > 0 ? (
             <Detail>{`Rating: ${rating} / 10 (${ratingCount} votes)`}</Detail>
           ) : null}
-          <Detail>{`Rating: ${rating} / 10 (${ratingCount} votes)`}</Detail>
         </Details>
         <Overview>{overview}</Overview>
       </StyledCardDetailed>
