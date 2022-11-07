@@ -7,7 +7,6 @@ const Grid = styled.div`
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 50px;
-  overflow-y: auto;
 
   @media screen and (max-width: 1440px) {
     padding: 10px;
