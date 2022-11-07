@@ -19,7 +19,7 @@ const Grid = styled.div`
 
   @media screen and (max-width: 1440px) {
     aspect-ratio: unset;
-    max-height: 90vh;
+    max-height: 80vh;
     overflow: hidden;
     grid-template-rows: 40% 20% 40%;
     grid-template-columns: 100%;
