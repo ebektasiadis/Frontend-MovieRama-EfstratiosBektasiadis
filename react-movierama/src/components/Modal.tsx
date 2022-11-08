@@ -22,9 +22,12 @@ const Modal = ({ header, children, onHide }: IModalProps) => {
 
   return (
     <GlobalHotKeys keyMap={keyMap} handlers={handlers}>
-      <Styles.ModalBackground onClick={() => onHide()}>
+      <Styles.ModalBackground
+        data-testid="modal-background"
+        onClick={() => onHide()}
+      >
         <Styles.StyledModal onClick={(e) => e.stopPropagation()}>
-          <Styles.Header>
+          <Styles.Header data-testid="modal-header">
             <Styles.HeaderTitle aria-label={header}>
               {header}
             </Styles.HeaderTitle>
@@ -33,7 +36,7 @@ const Modal = ({ header, children, onHide }: IModalProps) => {
               aria-label={"Close modal"}
             />
           </Styles.Header>
-          <Styles.Body>{children}</Styles.Body>
+          <Styles.Body data-testid="modal-body">{children}</Styles.Body>
         </Styles.StyledModal>
       </Styles.ModalBackground>
     </GlobalHotKeys>

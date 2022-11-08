@@ -38,4 +38,4 @@ const MovieContextProvider = ({ children }: IMovieStateProviderProps) => {
   );
 };
 
-export { MovieContextProvider, useMovieContext };
+export { MovieContext, MovieContextProvider, useMovieContext };

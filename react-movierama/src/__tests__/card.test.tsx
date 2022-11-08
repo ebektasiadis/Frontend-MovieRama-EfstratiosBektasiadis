@@ -1,6 +1,6 @@
 import { render, screen, fireEvent } from "@testing-library/react";
-import Card from "@components/Card";
-import { MovieContext } from "../App";
+import { Card } from "@components";
+import { MovieContext } from "@contexts";
 
 describe("Card", () => {
   const cardProps = { id: 1, title: "Test" };
@@ -26,9 +26,9 @@ describe("Card", () => {
       setSelectedMovie: jest.fn(),
     };
     render(
-      <MovieContext.Provider value={value}>
+      <MovieContext.MovieContext.Provider value={value}>
         <Card {...cardProps} />
-      </MovieContext.Provider>
+      </MovieContext.MovieContext.Provider>
     );
 
     const cardElement = screen.getByTestId("card");

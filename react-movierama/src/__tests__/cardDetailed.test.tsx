@@ -1,6 +1,6 @@
 import { render, screen, fireEvent } from "@testing-library/react";
-import CardDetailed from "@components/CardDetailed";
-import { MovieContext } from "../App";
+import { CardDetailed } from "@components";
+import { MovieContext } from "@contexts";
 
 describe("CardDetailed", () => {
   const cardProps = {
@@ -31,14 +31,13 @@ describe("CardDetailed", () => {
 
   it("should trigger a set event on click with the movie ID", () => {
     const value = {
-      genres: [],
       selectedMovie: 0,
       setSelectedMovie: jest.fn(),
     };
     render(
-      <MovieContext.Provider value={value}>
+      <MovieContext.MovieContext.Provider value={value}>
         <CardDetailed {...cardProps} />
-      </MovieContext.Provider>
+      </MovieContext.MovieContext.Provider>
     );
 
     const cardElement = screen.getByTestId("card");

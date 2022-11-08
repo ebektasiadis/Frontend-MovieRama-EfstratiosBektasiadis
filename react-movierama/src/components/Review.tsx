@@ -10,6 +10,7 @@ interface IReviewProps {
 
 const Review = forwardRef<any, IReviewProps>(
   ({ avatar, author, createdAt, content }: IReviewProps, ref) => {
+    const formatedCreatedAt = new Date(createdAt).toLocaleString();
     return (
       <Styles.StyledReview ref={ref}>
         <Styles.Header>
@@ -18,9 +19,9 @@ const Review = forwardRef<any, IReviewProps>(
             src={`https://secure.gravatar.com/avatar/${avatar}`}
           />
           <Styles.Author>{`Written by ${author}`}</Styles.Author>
-          <Styles.CreatedAt>{`At ${new Date(
-            createdAt
-          ).toLocaleString()}`}</Styles.CreatedAt>
+          <Styles.CreatedAt data-testid="created-at">
+            {formatedCreatedAt !== "Invalid Date" && `At ${formatedCreatedAt}`}
+          </Styles.CreatedAt>
         </Styles.Header>
         <Styles.Body>
           <p>{content}</p>
