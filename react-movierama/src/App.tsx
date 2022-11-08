@@ -1,98 +1,101 @@
 import {
-  useCallback,
   useEffect,
   useState,
   createContext,
   lazy,
   Suspense,
-  useMemo,
+  useReducer,
 } from "react";
-import { Header, Container, CardDetailed } from "@components";
+import { Header } from "@components";
 import useMovieDB from "@hooks/useMovieDB";
-import { Grid } from "@styles/Layouts.styled";
-import { Movie } from "@dtypes/index";
-import { MovieListResponse } from "@dtypes/responses";
+import SearchResults from "./components/SearchResults";
 
 const MovieDetailsModal = lazy(() => import("@modals/MovieDetailsModal"));
 
+const DEBOUNCING_MS = 300;
+
 export const MovieContext = createContext({
   selectedMovie: 0,
-  genres: [] as any[],
   setSelectedMovie: (id: number) => {},
+});
+
+type State = {
+  page: number;
+  searchQuery: string;
+};
+
+enum ActionType {
+  UpdateSearchQuery = "UPDATE_SEARCH_QUERY",
+  SetPage = "SET_PAGE",
+}
+
+type Action = {
+  type: ActionType;
+  payload?: any;
+};
+
+const initialState: State = {
+  page: 1,
+  searchQuery: "",
+};
+
+const reducer = (state: State, action: Action): State => {
+  switch (action.type) {
+    case ActionType.UpdateSearchQuery:
+      return { ...state, page: 1, searchQuery: action.payload };
+    case ActionType.SetPage:
+      return { ...state, page: action.payload };
+    default:
+      return state;
+  }
+};
+
+const requestUpdateSearchQuery = (searchQuery: string): Action => ({
+  type: ActionType.UpdateSearchQuery,
+  payload: searchQuery,
+});
+
+const requestSetPage = (page: number): Action => ({
+  type: ActionType.SetPage,
+  payload: page,
 });
 
 const App = () => {
   const [query, setQuery] = useState("");
-  const [toSearch, setToSearch] = useState("");
-  const [page, setPage] = useState(1);
-  const [hasMore, setHasMore] = useState(true);
-  const [movies, setMovies] = useState<Movie[]>([]);
-
   const [selectedMovie, setSelectedMovie] = useState(0);
 
-  const onChangeHandler = useCallback((query: string) => setQuery(query), []);
+  const [{ page, searchQuery }, dispatch] = useReducer(reducer, initialState);
 
-  const { useFetchNowPlaying, useFetchSearchResults, useFetchGenres } =
-    useMovieDB(process.env.REACT_APP_MOVIEDB_API_KEY || "");
-
-  const { data, isLoading, isError } = useFetchNowPlaying(
-    page,
-    page >= 1 && !query.length && hasMore
+  const { useFetchNowPlaying, useFetchSearchResults } = useMovieDB(
+    process.env.REACT_APP_MOVIEDB_API_KEY || ""
   );
+
+  const {
+    data: nowPlayingResults,
+    isLoading: npLoading,
+    isError: npError,
+  } = useFetchNowPlaying(page, page >= 1 && !searchQuery.length);
+
   const {
     data: searchResults,
-    isLoading: isLoadingSearchResults,
-    isError: isErrorSearchResults,
-  } = useFetchSearchResults(page, toSearch, query.length > 0 && hasMore);
+    isLoading: srLoading,
+    isError: srError,
+  } = useFetchSearchResults(page, searchQuery, searchQuery.length > 0);
 
-  const isLoadingResults =
-    (query && isLoadingSearchResults) || (!query && isLoading);
+  const results = {
+    isLoading: query ? srLoading : npLoading,
+    isError: query ? srError : npError,
+    data: query ? searchResults : nowPlayingResults,
+  };
 
-  const { data: genres } = useFetchGenres();
-
-  useEffect(() => {
-    if (
-      (query && (isLoadingSearchResults || isErrorSearchResults)) ||
-      (!query && (isLoading || isError))
-    )
-      return;
-
-    const totalPages = query ? searchResults.total_pages : data.total_pages;
-    const newMoviesResponse: MovieListResponse = query ? searchResults : data;
-
-    setHasMore(page <= totalPages);
-
-    const newMovies: Movie[] = newMoviesResponse.results.map((movie) => ({
-      id: movie.id,
-      title: movie.title,
-      releaseYear: movie.release_date,
-      genres: [] as string[],
-      rating: movie.vote_average,
-      ratingCount: movie.vote_count,
-      overview: movie.overview,
-      poster: movie.poster_path,
-    }));
-
-    setMovies((prev) => [...(page > 1 ? prev : []), ...newMovies]);
-  }, [
-    isLoading,
-    isLoadingSearchResults,
-    page,
-    query,
-    data,
-    searchResults,
-    isError,
-    isErrorSearchResults,
-  ]);
-
+  /**
+   * Debouncing users input
+   */
   useEffect(() => {
     const timeout = setTimeout(() => {
-      setPage(1);
-      setHasMore(true);
-      setToSearch(query);
+      dispatch(requestUpdateSearchQuery(query));
       window.scrollTo({ top: 0, left: 0 });
-    }, 300);
-
+    }, DEBOUNCING_MS);
     return () => clearTimeout(timeout);
   }, [query]);
 
@@ -108,44 +111,14 @@ const App = () => {
     document.body.style.overflow = "auto";
   }, [selectedMovie]);
 
-  const cardItems = useMemo(() => {
-    const ids = new Set();
-    if (!movies) return [];
-    return movies
-      .map((movie: any) => {
-        /**
-         * Issue with Movie DB sometimes responsing on different pages
-         * with the same movie, thus causing issues on Virtual DOM as
-         * some elements ends up having the same key.
-         */
-        if (ids.has(movie.id)) return undefined;
-        ids.add(movie.id);
-
-        return <CardDetailed key={movie.id} {...movie} />;
-      })
-      .filter((card: any) => card !== undefined);
-  }, [movies]);
-
-  const onIntersectHandler = () => {
-    if (hasMore) {
-      setPage((prev) => prev + 1);
-    }
-  };
-
   return (
-    <MovieContext.Provider
-      value={{ selectedMovie, setSelectedMovie, genres: genres?.genres || [] }}
-    >
-      <div className="App">
-        <Header query={query} setQuery={onChangeHandler} />
-        <Container
-          aria-disabled={true}
-          onIntersect={onIntersectHandler}
-          isLoading={isLoadingResults}
-          layout={Grid}
-        >
-          {cardItems}
-        </Container>
+    <div className="App">
+      <Header query={query} setQuery={setQuery} />
+      <MovieContext.Provider value={{ selectedMovie, setSelectedMovie }}>
+        <SearchResults
+          setPage={(page: number) => dispatch(requestSetPage(page))}
+          {...results}
+        />
         {selectedMovie ? (
           <Suspense fallback={"Fetching"}>
             <MovieDetailsModal
@@ -154,8 +127,8 @@ const App = () => {
             ></MovieDetailsModal>
           </Suspense>
         ) : null}
-      </div>
-    </MovieContext.Provider>
+      </MovieContext.Provider>
+    </div>
   );
 };
 
