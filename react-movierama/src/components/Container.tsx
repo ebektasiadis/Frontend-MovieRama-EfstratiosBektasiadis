@@ -8,19 +8,19 @@ import {
 } from "react";
 import { StyledComponent } from "styled-components";
 
-interface IMovieContainerProps {
-  Layout: StyledComponent<any, any>;
+interface IContainerProps {
+  layout: StyledComponent<any, any>;
   onIntersect?: Function;
   isLoading?: boolean;
   children: ReactNode;
 }
 
 const Container = ({
-  Layout,
+  layout: Layout,
   onIntersect,
   children,
   isLoading,
-}: IMovieContainerProps) => {
+}: IContainerProps) => {
   const observer: any = useRef();
 
   const lastItem = useCallback(

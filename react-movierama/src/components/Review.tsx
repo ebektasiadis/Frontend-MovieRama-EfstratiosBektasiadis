@@ -1,40 +1,5 @@
 import { forwardRef } from "react";
-import styled from "styled-components";
-
-const StyledReview = styled.article`
-  border-radius: 5px;
-  background: white;
-`;
-
-const Header = styled.div`
-  display: grid;
-  background: var(--light-blue);
-  border-radius: 5px 5px 0 0;
-  grid-template-columns: auto 100%;
-  grid-template-areas:
-    "avatar author"
-    "avatar created-at";
-  padding: 20px 10px;
-`;
-
-const Body = styled.div`
-  padding: 20px 10px;
-`;
-
-const Avatar = styled.img`
-  border-radius: 5px;
-  grid-area: avatar;
-  margin-right: 10px;
-  width: 64px;
-`;
-
-const Author = styled.p`
-  grid-area: "author";
-`;
-
-const CreatedAt = styled.p`
-  grid-area: "created-at";
-`;
+import { ReviewStyles as Styles } from "@styles";
 
 interface IReviewProps {
   avatar: string;
@@ -46,19 +11,21 @@ interface IReviewProps {
 const Review = forwardRef<any, IReviewProps>(
   ({ avatar, author, createdAt, content }: IReviewProps, ref) => {
     return (
-      <StyledReview ref={ref}>
-        <Header>
-          <Avatar
+      <Styles.StyledReview ref={ref}>
+        <Styles.Header>
+          <Styles.Avatar
             loading="lazy"
             src={`https://secure.gravatar.com/avatar/${avatar}`}
           />
-          <Author>{author}</Author>
-          <CreatedAt>{createdAt}</CreatedAt>
-        </Header>
-        <Body>
+          <Styles.Author>{`Written by ${author}`}</Styles.Author>
+          <Styles.CreatedAt>{`At ${new Date(
+            createdAt
+          ).toLocaleString()}`}</Styles.CreatedAt>
+        </Styles.Header>
+        <Styles.Body>
           <p>{content}</p>
-        </Body>
-      </StyledReview>
+        </Styles.Body>
+      </Styles.StyledReview>
     );
   }
 );

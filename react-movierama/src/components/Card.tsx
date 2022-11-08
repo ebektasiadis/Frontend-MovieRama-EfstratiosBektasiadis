@@ -1,64 +1,33 @@
-import { forwardRef, useContext } from "react";
-import styled from "styled-components";
-import { MovieContext } from "../App";
-
-const StyledCard = styled.article`
-  background-color: var(--primary-color);
-  padding: 5px;
-  margin: 10px 0;
-  border-radius: 5px;
-  filter: drop-shadow(0px 0px 4px #000000);
-  color: white;
-  display: flex;
-  cursor: pointer;
-
-  &:hover {
-    scale: 1.03;
-  }
-
-  &:active {
-    scale: 0.97;
-  }
-
-  &:hover,
-  &:active {
-    transition: scale 200ms ease-out;
-  }
-`;
-
-const Poster = styled.img`
-  grid-area: poster;
-  object-fit: cover;
-  width: 200px;
-  border-radius: 5px;
-`;
-
+import { forwardRef } from "react";
+import { CardStyles as Styles } from "@styles";
+import { MovieContext } from "@contexts";
 interface ICardProps {
   id: number;
   title: string;
-  poster: string | null;
+  poster?: string;
 }
 
 const Card = forwardRef<any, ICardProps>(
   ({ id, title, poster }: ICardProps, ref) => {
-    const { setSelectedMovie } = useContext(MovieContext);
+    const { setSelectedMovie } = MovieContext.useMovieContext();
     return (
-      <StyledCard
+      <Styles.StyledCard
         ref={ref}
+        aria-label={title}
         data-testid="card"
         onClick={() => setSelectedMovie(id)}
       >
-        <Poster
+        <Styles.Poster
           data-testid="poster-img"
           loading="lazy"
           alt={title}
           src={
-            poster !== null
+            poster
               ? `https://image.tmdb.org/t/p/w200/${poster}`
               : `/movie-poster-placeholder.png`
           }
         />
-      </StyledCard>
+      </Styles.StyledCard>
     );
   }
 );

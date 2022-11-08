@@ -1,9 +1,9 @@
 import { render, screen, fireEvent } from "@testing-library/react";
-import Card from "../Card";
-import { MovieContext } from "../../App";
+import Card from "@components/Card";
+import { MovieContext } from "../App";
 
 describe("Card", () => {
-  const cardProps = { id: 1, title: "Test", poster: null };
+  const cardProps = { id: 1, title: "Test" };
 
   it("should render a placeholder if no poster provided", () => {
     render(<Card {...cardProps} />);
