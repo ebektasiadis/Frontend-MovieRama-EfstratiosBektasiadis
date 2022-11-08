@@ -8,6 +8,28 @@ body {
   background-color: var(--secondary-color);
 }
 
+::-webkit-scrollbar {
+  width: 0px;
+  height: 10px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: var(--light-gray);
+  border-radius: 5px;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background-color: var(--light-blue);
+  border-radius: 5px;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: var(--dark-blue);
+}
+
 :root {
   --primary-color: #404258;
   --secondary-color: #6b728e;

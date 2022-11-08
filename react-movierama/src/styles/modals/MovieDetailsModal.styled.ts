@@ -54,9 +54,6 @@ export const Reviews = styled.div`
   overflow: auto;
   overflow-x: hidden;
   grid-area: reviews;
-  ::-webkit-scrollbar {
-    display: none;
-  }
   display: flex;
   flex-direction: column;
   row-gap: 10px;
@@ -67,7 +64,4 @@ export const Similar = styled.div`
   display: flex;
   column-gap: 10px;
   overflow: auto;
-  ::-webkit-scrollbar {
-    display: none;
-  }
 `;
