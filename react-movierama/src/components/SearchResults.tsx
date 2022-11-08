@@ -3,6 +3,7 @@ import { MovieListResponse } from "@src/types/responses";
 import { useEffect, useMemo, useState } from "react";
 import { CardDetailed, Container } from "@components";
 import { Grid } from "@styles/Layouts.styled";
+import useMovieDB from "@src/hooks/useMovieDB";
 
 interface ISearchResults {
   isLoading: boolean;
@@ -19,6 +20,28 @@ const SearchResults = ({
 }: ISearchResults) => {
   const [hasMore, setHasMore] = useState(true);
   const [movies, setMovies] = useState<Movie[]>([]);
+  const [genreMap, setGenreMap] = useState<Map<number, string>>(new Map());
+
+  const { useFetchGenres } = useMovieDB(
+    process.env.REACT_APP_MOVIEDB_API_KEY || ""
+  );
+
+  const {
+    data: gen,
+    isLoading: genLoading,
+    isError: genError,
+  } = useFetchGenres();
+
+  /**
+   * Mapping response of genres endpoint to a map
+   * for a quicker search operation.
+   */
+  useEffect(() => {
+    if (genLoading || genError) return;
+    let newMap: Map<number, string> = new Map();
+    gen.genres.forEach(({ id, name }) => newMap.set(id, name));
+    setGenreMap(newMap);
+  }, [gen, genLoading, genError]);
 
   useEffect(() => {
     if (isLoading || isError) return;
@@ -28,7 +51,9 @@ const SearchResults = ({
       id: movie.id,
       title: movie.title,
       releaseYear: movie.release_date,
-      genres: [],
+      genres: movie.genre_ids
+        .filter((genre) => genreMap.has(genre))
+        .map((genre) => genreMap.get(genre) || "Unknown category"),
       rating: movie.vote_average,
       ratingCount: movie.vote_count,
       overview: movie.overview,
@@ -36,7 +61,7 @@ const SearchResults = ({
     }));
 
     setMovies((prev) => [...(data.page > 1 ? prev : []), ...newMovies]);
-  }, [isLoading, isError, data]);
+  }, [isLoading, isError, data, genreMap]);
 
   const cardItems = useMemo(() => {
     const ids = new Set();

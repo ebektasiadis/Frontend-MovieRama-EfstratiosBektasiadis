@@ -83,9 +83,9 @@ const App = () => {
   } = useFetchSearchResults(page, searchQuery, searchQuery.length > 0);
 
   const results = {
-    isLoading: query ? srLoading : npLoading,
-    isError: query ? srError : npError,
-    data: query ? searchResults : nowPlayingResults,
+    isLoading: searchQuery ? srLoading : npLoading,
+    isError: searchQuery ? srError : npError,
+    data: searchQuery ? searchResults : nowPlayingResults,
   };
 
   /**
