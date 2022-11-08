@@ -23,7 +23,7 @@
   "scripts": {
     "start": "craco start",
     "build": "craco build",
-    "test": "craco test --transformIgnorePatterns \"node_modules/(?!axios)/\"",
+    "test": "craco test",
     "eject": "craco eject"
   },
   "eslintConfig": {
@@ -47,8 +47,7 @@
   "devDependencies": {
     "@types/axios": "^0.14.0",
     "@types/styled-components": "^5.1.26",
-    "nock": "^13.2.9",
-    "tsconfig-paths-webpack-plugin": "^4.0.0"
+    "nock": "^13.2.9"
   },
   "jest": {
     "moduleNameMapper": {

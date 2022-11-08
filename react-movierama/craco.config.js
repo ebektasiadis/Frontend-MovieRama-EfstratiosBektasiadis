@@ -10,4 +10,10 @@ module.exports = {
       "@dtypes": path.resolve(__dirname, "src/types"),
     },
   },
+  jest: {
+    configure(config) {
+      config.transformIgnorePatterns = ["<rootDir>/node_modules/(?!axios)/"];
+      return config;
+    },
+  },
 };
