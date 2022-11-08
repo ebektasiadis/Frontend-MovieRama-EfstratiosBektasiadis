@@ -31,7 +31,8 @@ const MovieDetailsModal = ({ movieId, onHide }: IMovieDetailsModalProps) => {
   } = useMovieDB(process.env.REACT_APP_MOVIEDB_API_KEY || "");
 
   const { data: details } = useFetchMovieDetails(movieId);
-  const { data: videos } = useFetchMovieVideos(movieId);
+  const { data: videos, isLoading: isLoadingVideos } =
+    useFetchMovieVideos(movieId);
   const { data: dataReviews, isLoading: isLoadingReviews } =
     useFetchMovieReviews(movieId, reviewPage);
   const { data: dataSimilar, isLoading: isLoadingSimilar } =
@@ -118,13 +119,21 @@ const MovieDetailsModal = ({ movieId, onHide }: IMovieDetailsModalProps) => {
       .filter((similar?) => similar !== undefined);
   }, [similar]);
 
+  const hasTrailer = trailer.length > 0 && !isLoadingVideos;
+  const hasSimilar = similar.length > 0 && !isLoadingSimilar;
+  const hasReviews = reviews.length > 0 && !isLoadingReviews;
+
   return (
     <Modal
       header={details ? details.title : ""}
       onHide={onHide}
       aria-label={"Movie Details Modal"}
     >
-      <Styles.Grid>
+      <Styles.Grid
+        noTrailer={!hasTrailer}
+        noReviews={!hasReviews}
+        noSimilar={!hasSimilar}
+      >
         {trailer ? (
           <Styles.TrailerFrame
             src={`https://www.youtube-nocookie.com/embed/${trailer}?autoplay=1`}

@@ -1,12 +1,22 @@
 import styled from "styled-components";
 
-export const Grid = styled.div`
+interface IGridProps {
+  noTrailer: boolean;
+  noReviews: boolean;
+  noSimilar: boolean;
+}
+
+export const Grid = styled.div<IGridProps>`
   display: grid;
   aspect-ratio: 16/9;
   max-width: 80vw;
-  max-height: 80vh;
-  grid-template-columns: 2fr 1fr;
-  grid-template-rows: 65% 35%;
+  max-height: ${(props) =>
+    //@ts-ignore
+    props.noTrailer && props.noReviews ? "40vh" : "80vh"};
+  grid-template-columns: ${(props) =>
+    props.noTrailer || props.noReviews ? "1fr" : "2fr 1fr"};
+  grid-template-rows: ${(props) =>
+    props.noTrailer && props.noReviews ? "0% 100%" : "65% 35%"};
   grid-template-areas:
     "trailer reviews"
     "similar similar";
@@ -16,7 +26,12 @@ export const Grid = styled.div`
     aspect-ratio: unset;
     max-height: 80vh;
     overflow: hidden;
-    grid-template-rows: 40% 20% 40%;
+
+    //@ts-ignore
+    grid-template-rows: ${(props) =>
+      `${props.noTrailer ? "0" : "4fr"} ${props.noSimilar ? "0" : "2fr"} ${
+        props.noReviews ? "0" : "4fr"
+      }`};
     grid-template-columns: 100%;
     grid-template-areas:
       "trailer"
