@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@craco/craco": "^7.0.0",
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
@@ -20,10 +21,10 @@
     "web-vitals": "^2.1.4"
   },
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test --transformIgnorePatterns \"node_modules/(?!axios)/\"",
-    "eject": "react-scripts eject"
+    "start": "craco start",
+    "build": "craco build",
+    "test": "craco test --transformIgnorePatterns \"node_modules/(?!axios)/\"",
+    "eject": "craco eject"
   },
   "eslintConfig": {
     "extends": [
@@ -46,7 +47,8 @@
   "devDependencies": {
     "@types/axios": "^0.14.0",
     "@types/styled-components": "^5.1.26",
-    "nock": "^13.2.9"
+    "nock": "^13.2.9",
+    "tsconfig-paths-webpack-plugin": "^4.0.0"
   },
   "jest": {
     "moduleNameMapper": {
@@ -54,7 +56,7 @@
       "^@styles(.*)$": "<rootDir>/src/components/styles/$1",
       "^@modals(.*)$": "<rootDir>/src/components/modals/$1",
       "^@hooks(.*)$": "<rootDir>/src/hooks/$1",
-      "^@types(.*)$": "<rootDir>/src/types/$1"
+      "^@dtypes(.*)$": "<rootDir>/src/types/$1"
     }
   }
 }
