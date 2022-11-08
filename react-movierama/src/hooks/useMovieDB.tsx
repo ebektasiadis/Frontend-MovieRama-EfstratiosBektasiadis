@@ -73,12 +73,14 @@ const useFetchMovieVideos = ({ id, instance }: any) => {
   return useRequest(instance, `/movie/${id}/videos`, id);
 };
 
-const useFetchMovieReviews = ({ id, instance }: any) => {
-  return useRequest(instance, `/movie/${id}/reviews`, id);
+const useFetchMovieReviews = ({ id, instance, page }: any) => {
+  const options = useMemo(() => ({ params: { page } }), [page]);
+  return useRequest(instance, `/movie/${id}/reviews`, id, options);
 };
 
-const useFetchMovieSimilar = ({ id, instance }: any) => {
-  return useRequest(instance, `/movie/${id}/similar`, id);
+const useFetchMovieSimilar = ({ id, instance, page }: any) => {
+  const options = useMemo(() => ({ params: { page } }), [page]);
+  return useRequest(instance, `/movie/${id}/similar`, id, options);
 };
 
 const useFetchNowPlaying = ({ page, instance, canExec }: any) => {
@@ -146,10 +148,10 @@ const useMovieDB = (apiKey: string, language = "en-US") => {
     useFetchMovieDetails: (id: number) =>
       useFetchMovieDetails({ id, instance }),
     useFetchMovieVideos: (id: number) => useFetchMovieVideos({ id, instance }),
-    useFetchMovieReviews: (id: number) =>
-      useFetchMovieReviews({ id, instance }),
-    useFetchMovieSimilar: (id: number) =>
-      useFetchMovieSimilar({ id, instance }),
+    useFetchMovieReviews: (id: number, page: number) =>
+      useFetchMovieReviews({ id, instance, page }),
+    useFetchMovieSimilar: (id: number, page: number) =>
+      useFetchMovieSimilar({ id, instance, page }),
   };
 };
 
