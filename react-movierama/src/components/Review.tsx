@@ -1,40 +1,12 @@
 import { forwardRef } from "react";
-import styled from "styled-components";
-
-const StyledReview = styled.article`
-  border-radius: 5px;
-  background: white;
-`;
-
-const Header = styled.div`
-  display: grid;
-  background: var(--light-blue);
-  border-radius: 5px 5px 0 0;
-  grid-template-columns: auto 100%;
-  grid-template-areas:
-    "avatar author"
-    "avatar created-at";
-  padding: 20px 10px;
-`;
-
-const Body = styled.div`
-  padding: 20px 10px;
-`;
-
-const Avatar = styled.img`
-  border-radius: 5px;
-  grid-area: avatar;
-  margin-right: 10px;
-  width: 64px;
-`;
-
-const Author = styled.p`
-  grid-area: "author";
-`;
-
-const CreatedAt = styled.p`
-  grid-area: "created-at";
-`;
+import {
+  StyledReview,
+  Header,
+  Avatar,
+  Author,
+  CreatedAt,
+  Body,
+} from "@styles/Review.styled";
 
 interface IReviewProps {
   avatar: string;

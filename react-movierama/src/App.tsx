@@ -141,7 +141,7 @@ const App = () => {
         <Container
           onIntersect={onIntersectHandler}
           isLoading={isLoadingResults}
-          Layout={Grid}
+          layout={Grid}
         >
           {cardItems}
         </Container>
