@@ -7,7 +7,7 @@ import { MovieContext } from "@contexts";
 import { DEBOUNCING_MS } from "@src/constants";
 
 const App = () => {
-  const [query, setQuery] = useState("");
+  const [searchInput, setSearchInput] = useState("");
   const [{ page, searchQuery }, dispatch] = useReducer(
     searchResults.reducer,
     searchResults.initialState
@@ -40,15 +40,19 @@ const App = () => {
    */
   useEffect(() => {
     const timeout = setTimeout(() => {
-      dispatch(actions.requestUpdateSearchQuery(query));
+      dispatch(actions.requestUpdateSearchQuery(searchInput));
       window.scrollTo({ top: 0, left: 0 });
     }, DEBOUNCING_MS);
     return () => clearTimeout(timeout);
-  }, [query]);
+  }, [searchInput]);
 
   return (
     <div className="App">
-      <Header query={query} setQuery={setQuery} isLoading={results.isLoading} />
+      <Header
+        searchInput={searchInput}
+        setSearchInput={setSearchInput}
+        isLoading={results.isLoading}
+      />
       <MovieContext.MovieContextProvider>
         <SearchResults
           setPage={(page: number) => dispatch(actions.requestSetPage(page))}
