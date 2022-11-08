@@ -56,7 +56,9 @@
       "^@styles(.*)$": "<rootDir>/src/styles/$1",
       "^@modals(.*)$": "<rootDir>/src/components/modals/$1",
       "^@hooks(.*)$": "<rootDir>/src/hooks/$1",
-      "^@dtypes(.*)$": "<rootDir>/src/types/$1"
+      "^@dtypes(.*)$": "<rootDir>/src/types/$1",
+      "^@reducers(.*)$": "<rootDir>/src/reducers/$1",
+      "^@actions(.*)$": "<rootDir>/src/actions/$1"
     }
   }
 }

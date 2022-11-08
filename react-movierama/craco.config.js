@@ -8,6 +8,8 @@ module.exports = {
       "@modals": path.resolve(__dirname, "src/components/modals"),
       "@hooks": path.resolve(__dirname, "src/hooks"),
       "@dtypes": path.resolve(__dirname, "src/types"),
+      "@actions": path.resolve(__dirname, "src/actions"),
+      "@reducers": path.resolve(__dirname, "src/reducers"),
     },
   },
   jest: {

@@ -1,65 +1,22 @@
 import {
-  Action,
   MovieDetailsResponse,
   MovieGenresResponse,
   MovieListResponse,
   MovieReviewsResponse,
   MovieSimilarResponse,
   MovieVideosResponse,
-  RequestActionType as ActionType,
-  RequestActionType,
-  RequestState,
 } from "@dtypes";
+import {
+  requestCompleteAction,
+  requestFailedAction,
+  requestInitAction,
+} from "@src/actions/requestActions";
+import {
+  requestInitialState as initialState,
+  requestReducer as reducer,
+} from "@src/reducers/requestReducer";
 import axios, { AxiosInstance, AxiosResponse } from "axios";
 import { useEffect, useMemo, useReducer } from "react";
-
-const initialState: RequestState<undefined> = {
-  isLoading: true,
-  isError: false,
-  isSuccess: false,
-};
-
-const reducer = <T>(
-  state: RequestState<T>,
-  action: Action<RequestActionType>
-): RequestState<T> => {
-  switch (action.type) {
-    case ActionType.RequestInit:
-      return {
-        ...initialState,
-      };
-    case ActionType.RequestCompleted:
-      return {
-        ...state,
-        isLoading: false,
-        isSuccess: true,
-        data: action.payload,
-      };
-    case ActionType.RequestFailed:
-      return {
-        ...state,
-        isLoading: false,
-        isError: true,
-        error: action.payload,
-      };
-    default:
-      return state;
-  }
-};
-
-const requestInitAction = (): Action<RequestActionType> => ({
-  type: ActionType.RequestInit,
-});
-
-const requestCompleteAction = (payload: any): Action<RequestActionType> => ({
-  type: ActionType.RequestCompleted,
-  payload,
-});
-
-const requestFailedAction = (payload: any): Action<RequestActionType> => ({
-  type: ActionType.RequestFailed,
-  payload,
-});
 
 const useFetchMovieDetails = ({ id, instance }: any) => {
   return useRequest<MovieDetailsResponse>(instance, `/movie/${id}`, id);

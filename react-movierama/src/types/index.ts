@@ -29,7 +29,7 @@ export type RequestState<T> = {
   error?: T;
 };
 
-export type SearchResultState = {
+export type SearchResultsState = {
   page: number;
   searchQuery: string;
 };
@@ -49,7 +49,7 @@ export enum RequestActionType {
   RequestFailed = "REQUEST_FAILED",
 }
 
-export enum SearchResultActionType {
+export enum SearchResultsActionType {
   UpdateSearchQuery = "UPDATE_SEARCH_QUERY",
   SetPage = "SET_PAGE",
 }

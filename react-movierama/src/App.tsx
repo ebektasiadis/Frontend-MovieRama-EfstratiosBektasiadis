@@ -9,11 +9,13 @@ import {
 import { Header, SearchResults } from "@components";
 import useMovieDB from "@hooks/useMovieDB";
 import {
-  SearchResultState,
-  SearchResultActionType as ActionType,
-  Action,
-  SearchResultActionType,
-} from "@dtypes";
+  searchResultsReducer as reducer,
+  searchResultsInitialState as initialState,
+} from "./reducers/searchResultsReducer";
+import {
+  requestSetPage,
+  requestUpdateSearchQuery,
+} from "./actions/searchResultsActions";
 
 const MovieDetailsModal = lazy(() => import("@modals/MovieDetailsModal"));
 
@@ -22,37 +24,6 @@ const DEBOUNCING_MS = 300;
 export const MovieContext = createContext({
   selectedMovie: 0,
   setSelectedMovie: (id: number) => {},
-});
-
-const initialState: SearchResultState = {
-  page: 1,
-  searchQuery: "",
-};
-
-const reducer = (
-  state: SearchResultState,
-  action: Action<SearchResultActionType>
-): SearchResultState => {
-  switch (action.type) {
-    case ActionType.UpdateSearchQuery:
-      return { ...state, page: 1, searchQuery: action.payload };
-    case ActionType.SetPage:
-      return { ...state, page: action.payload };
-    default:
-      return state;
-  }
-};
-
-const requestUpdateSearchQuery = (
-  searchQuery: string
-): Action<SearchResultActionType> => ({
-  type: ActionType.UpdateSearchQuery,
-  payload: searchQuery,
-});
-
-const requestSetPage = (page: number): Action<SearchResultActionType> => ({
-  type: ActionType.SetPage,
-  payload: page,
 });
 
 const App = () => {
