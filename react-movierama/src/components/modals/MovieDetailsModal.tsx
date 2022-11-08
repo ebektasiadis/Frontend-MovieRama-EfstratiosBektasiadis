@@ -1,10 +1,11 @@
+import { Movie, Review } from "@dtypes/index";
 import { useEffect, useMemo, useState } from "react";
 import styled from "styled-components";
-import useMovieDB from "../../hooks/useMovieDB";
-import Card from "../Card";
-import Container from "../Container";
-import Modal from "../Modal";
-import Review from "../Review";
+import useMovieDB from "@hooks/useMovieDB";
+import Card from "@components/Card";
+import Container from "@components/Container";
+import Modal from "@components/Modal";
+import ReviewComponent from "@components/Review";
 
 const Grid = styled.div`
   display: grid;
@@ -74,11 +75,11 @@ const isTrailer = (site: string, type: string) =>
 const MovieDetailsModal = ({ movieId, onHide }: IMovieDetailsModalProps) => {
   const [trailer, setTrailer] = useState("");
 
-  const [reviews, setReviews] = useState<any[]>([]);
+  const [reviews, setReviews] = useState<Review[]>([]);
   const [reviewPage, setReviewPage] = useState(1);
   const [reviewHasMore, setReviewHasMore] = useState(true);
 
-  const [similar, setSimilar] = useState<any[]>([]);
+  const [similar, setSimilar] = useState<Movie[]>([]);
   const [similarPage, setSimilarPage] = useState(1);
   const [similarHasMore, setSimilarHasMore] = useState(true);
 
@@ -99,7 +100,8 @@ const MovieDetailsModal = ({ movieId, onHide }: IMovieDetailsModalProps) => {
   useEffect(() => {
     if (videos) {
       setTrailer(
-        videos.results.find(({ site, type }: any) => isTrailer(site, type))?.key
+        videos.results.find((video) => isTrailer(video.site, video.type))
+          ?.key || ""
       );
     }
   }, [videos]);
@@ -107,18 +109,36 @@ const MovieDetailsModal = ({ movieId, onHide }: IMovieDetailsModalProps) => {
   useEffect(() => {
     if (isLoadingReviews) return;
     if (reviewPage === dataReviews.total_pages) setReviewHasMore(false);
-    setReviews((prev) => [
-      ...(reviewPage > 1 ? prev : []),
-      ...dataReviews.results,
-    ]);
+
+    const newReviews: Review[] = dataReviews.results.map((review) => ({
+      id: review.id,
+      avatar: review.author_details.avatar_path,
+      author: review.author,
+      createdAt: review.created_at,
+      content: review.content,
+    }));
+
+    setReviews((prev) => [...(reviewPage > 1 ? prev : []), ...newReviews]);
   }, [reviewPage, isLoadingReviews, dataReviews]);
 
   useEffect(() => {
     if (isLoadingSimilar) return;
     if (similarPage === dataSimilar.total_pages) setSimilarHasMore(false);
+
+    const newSimilar: Movie[] = dataSimilar.results.map((movie) => ({
+      id: movie.id,
+      title: movie.title,
+      releaseYear: movie.release_date,
+      genres: [] as string[],
+      rating: movie.vote_average,
+      ratingCount: movie.vote_count,
+      overview: movie.overview,
+      poster: movie.poster_path,
+    }));
+
     setSimilar((prev: any) => [
       ...(similarPage > 1 ? prev : []),
-      ...dataSimilar.results,
+      ...newSimilar,
     ]);
   }, [similarPage, isLoadingSimilar, dataSimilar]);
 
@@ -135,21 +155,13 @@ const MovieDetailsModal = ({ movieId, onHide }: IMovieDetailsModalProps) => {
     if (!reviews) return [];
 
     return reviews
-      .map((review: any) => {
+      .map((review) => {
         if (ids.has(review.id)) return undefined;
         ids.add(review.id);
 
-        return (
-          <Review
-            key={review.id}
-            avatar={review.author_details.avatar_path}
-            author={review.author}
-            createdAt={review.created_at}
-            content={review.content}
-          />
-        );
+        return <ReviewComponent key={review.id} {...review} />;
       })
-      .filter((review: any) => review !== undefined);
+      .filter((review?) => review);
   }, [reviews]);
 
   const similarItems = useMemo(() => {
@@ -157,20 +169,13 @@ const MovieDetailsModal = ({ movieId, onHide }: IMovieDetailsModalProps) => {
     if (!similar) return [];
 
     return similar
-      .map((similar: any) => {
+      .map((similar) => {
         if (ids.has(similar.id)) return undefined;
         ids.add(similar.id);
 
-        return (
-          <Card
-            key={similar.id}
-            id={similar.id}
-            title={similar.title}
-            poster={similar.poster_path}
-          />
-        );
+        return <Card key={similar.id} {...similar} />;
       })
-      .filter((similar: any) => similar !== undefined);
+      .filter((similar?) => similar !== undefined);
   }, [similar]);
 
   return (

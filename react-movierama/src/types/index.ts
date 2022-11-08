@@ -10,6 +10,7 @@ export interface Movie {
 }
 
 export interface Review {
+  id: string;
   avatar: string;
   author: string;
   createdAt: string;
