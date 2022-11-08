@@ -7,11 +7,9 @@ import {
   Suspense,
   useMemo,
 } from "react";
-import Header from "@components/Header";
+import { Header, Container, CardDetailed } from "@components";
 import useMovieDB from "@hooks/useMovieDB";
-import MovieContainer from "@components/Container";
 import { Grid } from "@styles/Layouts.styled";
-import CardDetailed from "@components/CardDetailed";
 import { Movie } from "@dtypes/index";
 import { MovieListResponse } from "@dtypes/responses";
 
@@ -140,13 +138,13 @@ const App = () => {
     >
       <div className="App">
         <Header query={query} setQuery={onChangeHandler} />
-        <MovieContainer
+        <Container
           onIntersect={onIntersectHandler}
           isLoading={isLoadingResults}
           Layout={Grid}
         >
           {cardItems}
-        </MovieContainer>
+        </Container>
         {selectedMovie ? (
           <Suspense fallback={"Fetching"}>
             <MovieDetailsModal

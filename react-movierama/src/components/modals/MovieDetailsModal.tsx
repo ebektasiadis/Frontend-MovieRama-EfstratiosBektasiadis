@@ -2,10 +2,7 @@ import { Movie, Review } from "@dtypes/index";
 import { useEffect, useMemo, useState } from "react";
 import styled from "styled-components";
 import useMovieDB from "@hooks/useMovieDB";
-import Card from "@components/Card";
-import Container from "@components/Container";
-import Modal from "@components/Modal";
-import ReviewComponent from "@components/Review";
+import { Card, Modal, Container, Review as ReviewComponent } from "@components";
 
 const Grid = styled.div`
   display: grid;
