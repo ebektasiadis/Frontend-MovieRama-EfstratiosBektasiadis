@@ -1,4 +1,4 @@
-import { useRef } from "react";
+import { memo, useRef } from "react";
 import { GlobalHotKeys } from "react-hotkeys";
 import {
   StyledHeader,
@@ -16,7 +16,7 @@ interface IHeaderProps {
   setQuery: (value: string) => void;
 }
 
-function Header({ query, setQuery }: IHeaderProps) {
+const Header = memo(({ query, setQuery }: IHeaderProps) => {
   const searchFieldRef = useRef<HTMLInputElement>(null);
 
   const keyMap = {
@@ -52,6 +52,6 @@ function Header({ query, setQuery }: IHeaderProps) {
       </StyledHeader>
     </GlobalHotKeys>
   );
-}
+});
 
 export default Header;
