@@ -1,23 +1,13 @@
 import { useCallback, useRef } from "react";
-import styled from "styled-components";
+import { StyledComponent } from "styled-components";
 import CardDetailed from "./CardDetailed";
-
-const Grid = styled.div`
-  padding: 50px;
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
-  gap: 50px;
-
-  @media screen and (max-width: 1200px) {
-    padding: 25px 10px;
-  }
-`;
 
 interface IMovieContainerProps {
   movies: any[];
   infinite: boolean;
   onIntersect?: Function;
   hasMore?: boolean;
+  Layout: StyledComponent<"div", any>;
 }
 
 type OptionalMovieContainerProps =
@@ -29,6 +19,7 @@ function MovieContainer({
   infinite = false,
   onIntersect,
   hasMore,
+  Layout,
 }: OptionalMovieContainerProps) {
   const observer: any = useRef();
 
@@ -74,7 +65,7 @@ function MovieContainer({
     });
   };
 
-  return <Grid>{mapStateToCards()}</Grid>;
+  return <Layout>{mapStateToCards()}</Layout>;
 }
 
 export default MovieContainer;

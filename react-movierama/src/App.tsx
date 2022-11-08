@@ -9,6 +9,7 @@ import {
 import Header from "./components/Header";
 import useMovieDB from "./hooks/useMovieDB";
 import MovieContainer from "./components/MovieContainer";
+import { Grid } from "./components/styles/Layouts.styled";
 
 const MovieDetailsModal = lazy(
   () => import("./components/modals/MovieDetailsModal")
@@ -98,6 +99,7 @@ const App = () => {
           infinite={true}
           onIntersect={setPage}
           hasMore={hasMore}
+          Layout={Grid}
         />
         {selectedMovie ? (
           <Suspense fallback={"Fetching"}>
