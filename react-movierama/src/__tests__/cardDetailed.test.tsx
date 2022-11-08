@@ -1,6 +1,6 @@
 import { render, screen, fireEvent } from "@testing-library/react";
-import CardDetailed from "../CardDetailed";
-import { MovieContext } from "../../App";
+import CardDetailed from "@components/CardDetailed";
+import { MovieContext } from "../App";
 
 describe("CardDetailed", () => {
   const cardProps = {
