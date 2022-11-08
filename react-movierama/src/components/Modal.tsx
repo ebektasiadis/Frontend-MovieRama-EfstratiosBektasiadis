@@ -7,7 +7,7 @@ import {
   HeaderTitle,
   CloseImg,
   Body,
-} from "./styles/Modal.styled";
+} from "@styles/Modal.styled";
 
 interface IModalProps {
   header: string;

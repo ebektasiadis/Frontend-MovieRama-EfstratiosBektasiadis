@@ -7,11 +7,11 @@ import {
   Suspense,
   useMemo,
 } from "react";
-import Header from "./components/Header";
-import useMovieDB from "./hooks/useMovieDB";
-import MovieContainer from "./components/Container";
-import { Grid } from "./components/styles/Layouts.styled";
-import CardDetailed from "./components/CardDetailed";
+import Header from "@components/Header";
+import useMovieDB from "@hooks/useMovieDB";
+import MovieContainer from "@components/Container";
+import { Grid } from "@styles/Layouts.styled";
+import CardDetailed from "@components/CardDetailed";
 
 const MovieDetailsModal = lazy(
   () => import("./components/modals/MovieDetailsModal")

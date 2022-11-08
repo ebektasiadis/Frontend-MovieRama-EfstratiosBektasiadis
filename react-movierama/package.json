@@ -47,5 +47,14 @@
     "@types/axios": "^0.14.0",
     "@types/styled-components": "^5.1.26",
     "nock": "^13.2.9"
+  },
+  "jest": {
+    "moduleNameMapper": {
+      "^@components(.*)$": "<rootDir>/src/components/$1",
+      "^@styles(.*)$": "<rootDir>/src/components/styles/$1",
+      "^@modals(.*)$": "<rootDir>/src/components/modals/$1",
+      "^@hooks(.*)$": "<rootDir>/src/hooks/$1",
+      "^@types(.*)$": "<rootDir>/src/types/$1"
+    }
   }
 }

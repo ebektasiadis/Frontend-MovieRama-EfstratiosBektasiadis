@@ -36,7 +36,7 @@ const Poster = styled.img`
 interface ICardProps {
   id: number;
   title: string;
-  poster: string | null;
+  poster?: string;
 }
 
 const Card = forwardRef<any, ICardProps>(
@@ -53,7 +53,7 @@ const Card = forwardRef<any, ICardProps>(
           loading="lazy"
           alt={title}
           src={
-            poster !== null
+            poster
               ? `https://image.tmdb.org/t/p/w200/${poster}`
               : `/movie-poster-placeholder.png`
           }
