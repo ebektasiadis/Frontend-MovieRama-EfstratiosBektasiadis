@@ -15,7 +15,7 @@ interface ICardDetailedProps {
   poster: string | null;
   title: string;
   releaseYear: string;
-  genres: number[];
+  genres: string[];
   rating: number;
   ratingCount: number;
   overview: string;
@@ -35,14 +35,11 @@ const CardDetailed = forwardRef<any, ICardDetailedProps>(
     }: ICardDetailedProps,
     ref
   ) => {
-    const { genres: genreLabels, setSelectedMovie } = useContext(MovieContext);
+    const { setSelectedMovie } = useContext(MovieContext);
 
     const genreListItems = useMemo(() => {
-      if (!genreLabels.length) return [];
-      let labels = new Map();
-      genreLabels.forEach(({ id, name }: any) => labels.set(id, name));
-      return genres.map((id) => <li key={id}>{labels.get(id)}</li>);
-    }, [genreLabels, genres]);
+      return genres.map((name) => <li key={name}>{name}</li>);
+    }, [genres]);
 
     return (
       <StyledCardDetailed
