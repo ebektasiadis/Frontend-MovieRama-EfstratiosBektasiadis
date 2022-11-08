@@ -17,8 +17,10 @@ const Review = forwardRef<any, IReviewProps>(
             loading="lazy"
             src={`https://secure.gravatar.com/avatar/${avatar}`}
           />
-          <Styles.Author>{author}</Styles.Author>
-          <Styles.CreatedAt>{createdAt}</Styles.CreatedAt>
+          <Styles.Author>{`Written by ${author}`}</Styles.Author>
+          <Styles.CreatedAt>{`At ${new Date(
+            createdAt
+          ).toLocaleString()}`}</Styles.CreatedAt>
         </Styles.Header>
         <Styles.Body>
           <p>{content}</p>

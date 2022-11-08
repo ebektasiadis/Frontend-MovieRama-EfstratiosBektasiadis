@@ -52,7 +52,9 @@ const CardDetailed = forwardRef<any, ICardDetailedProps>(
         />
         <Styles.Details>
           <Styles.Title>{title}</Styles.Title>
-          <Styles.Detail>{`Released at ${releaseYear}`}</Styles.Detail>
+          <Styles.Detail>{`Released at ${new Date(
+            releaseYear
+          ).toLocaleDateString()}`}</Styles.Detail>
           {genres.length ? (
             <Styles.Detail data-testid="genre-list">
               <Styles.GenreList data-testid>{genreListItems}</Styles.GenreList>

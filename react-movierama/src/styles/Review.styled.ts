@@ -29,6 +29,7 @@ export const Avatar = styled.img`
 
 export const Author = styled.p`
   grid-area: "author";
+  align-self: center;
 `;
 
 export const CreatedAt = styled.p`
