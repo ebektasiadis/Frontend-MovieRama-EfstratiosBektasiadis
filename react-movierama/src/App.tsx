@@ -100,7 +100,6 @@ const App = () => {
   const cardItems = useMemo(() => {
     const ids = new Set();
     if (!movies) return [];
-    console.log(movies);
     return movies
       .map((movie: any) => {
         /**

@@ -9,7 +9,7 @@ import {
 import { StyledComponent } from "styled-components";
 
 interface IMovieContainerProps {
-  Layout: StyledComponent<"div", any>;
+  Layout: StyledComponent<any, any>;
   onIntersect?: Function;
   isLoading?: boolean;
   children: ReactNode;
