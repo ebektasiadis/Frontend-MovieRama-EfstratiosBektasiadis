@@ -119,9 +119,9 @@ const MovieDetailsModal = ({ movieId, onHide }: IMovieDetailsModalProps) => {
       .filter((similar?) => similar !== undefined);
   }, [similar]);
 
-  const hasTrailer = trailer.length > 0 && !isLoadingVideos;
-  const hasSimilar = similar.length > 0 && !isLoadingSimilar;
-  const hasReviews = reviews.length > 0 && !isLoadingReviews;
+  const hasTrailer = trailer.length > 0;
+  const hasSimilar = similar.length > 0;
+  const hasReviews = reviews.length > 0;
 
   return (
     <Modal

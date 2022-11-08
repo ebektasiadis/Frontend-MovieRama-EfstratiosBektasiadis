@@ -5,9 +5,10 @@ import { HeaderStyles as Styles } from "@styles";
 interface IHeaderProps {
   query: string;
   setQuery: (value: string) => void;
+  isLoading: boolean;
 }
 
-const Header = memo(({ query, setQuery }: IHeaderProps) => {
+const Header = memo(({ query, setQuery, isLoading }: IHeaderProps) => {
   const searchFieldRef = useRef<HTMLInputElement>(null);
 
   const keyMap = {
@@ -26,6 +27,7 @@ const Header = memo(({ query, setQuery }: IHeaderProps) => {
       <Styles.StyledHeader>
         <Styles.Logo onClick={() => window.location.reload()}>
           <Styles.Image
+            spinning={isLoading}
             src="/logo192.png"
             alt="MovieRama"
             aria-label="MovieRama"

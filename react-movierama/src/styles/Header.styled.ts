@@ -1,5 +1,9 @@
 import styled from "styled-components";
 
+interface IImageProps {
+  spinning: boolean;
+}
+
 export const StyledHeader = styled.header`
   top: 0;
   position: sticky;
@@ -33,11 +37,19 @@ export const Logo = styled.div`
   }
 `;
 
-export const Image = styled.img`
+export const Image = styled.img<IImageProps>`
   height: auto;
   width: 50px;
-`;
 
+  animation: ${(props) => props.spinning && "1s spin infinite ease-in-out"};
+
+  @keyframes spin {
+    100% {
+      transform: rotate(360deg);
+      -webkit-transform: rotate(360deg);
+    }
+  }
+`;
 export const LogoName = styled.h1`
   font-size: 2em;
   color: var(--light-blue);

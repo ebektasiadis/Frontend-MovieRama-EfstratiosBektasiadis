@@ -48,7 +48,7 @@ const App = () => {
 
   return (
     <div className="App">
-      <Header query={query} setQuery={setQuery} />
+      <Header query={query} setQuery={setQuery} isLoading={results.isLoading} />
       <MovieContext.MovieContextProvider>
         <SearchResults
           setPage={(page: number) => dispatch(actions.requestSetPage(page))}
