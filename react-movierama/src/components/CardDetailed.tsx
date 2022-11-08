@@ -1,13 +1,5 @@
 import { forwardRef, useContext, useMemo } from "react";
-import {
-  StyledCardDetailed,
-  Poster,
-  Details,
-  Title,
-  GenreList,
-  Detail,
-  Overview,
-} from "@styles/CardDetailed.styled";
+import { CardDetailedStyles as Styles } from "@styles";
 import { MovieContext } from "@src/App";
 
 interface ICardDetailedProps {
@@ -42,13 +34,13 @@ const CardDetailed = forwardRef<any, ICardDetailedProps>(
     }, [genres]);
 
     return (
-      <StyledCardDetailed
+      <Styles.StyledCardDetailed
         data-testid="card"
         aria-label={title}
         ref={ref}
         onClick={() => setSelectedMovie(id)}
       >
-        <Poster
+        <Styles.Poster
           loading="lazy"
           alt={title}
           src={
@@ -58,20 +50,20 @@ const CardDetailed = forwardRef<any, ICardDetailedProps>(
           }
           data-testid="poster-img"
         />
-        <Details>
-          <Title>{title}</Title>
-          <Detail>{`Released at ${releaseYear}`}</Detail>
+        <Styles.Details>
+          <Styles.Title>{title}</Styles.Title>
+          <Styles.Detail>{`Released at ${releaseYear}`}</Styles.Detail>
           {genres.length ? (
-            <Detail data-testid="genre-list">
-              <GenreList data-testid>{genreListItems}</GenreList>
-            </Detail>
+            <Styles.Detail data-testid="genre-list">
+              <Styles.GenreList data-testid>{genreListItems}</Styles.GenreList>
+            </Styles.Detail>
           ) : null}
           {ratingCount > 0 ? (
-            <Detail>{`Rating: ${rating} / 10 (${ratingCount} votes)`}</Detail>
+            <Styles.Detail>{`Rating: ${rating} / 10 (${ratingCount} votes)`}</Styles.Detail>
           ) : null}
-        </Details>
-        <Overview aria-label={overview}>{overview}</Overview>
-      </StyledCardDetailed>
+        </Styles.Details>
+        <Styles.Overview aria-label={overview}>{overview}</Styles.Overview>
+      </Styles.StyledCardDetailed>
     );
   }
 );

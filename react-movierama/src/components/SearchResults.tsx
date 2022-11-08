@@ -1,8 +1,8 @@
-import { Movie, MovieListResponse } from "@dtypes";
 import { useEffect, useMemo, useState } from "react";
+import { Movie, MovieListResponse } from "@dtypes";
 import { CardDetailed, Container } from "@components";
-import { Grid } from "@styles/Layouts.styled";
-import useMovieDB from "@hooks/useMovieDB";
+import { LayoutStyles as Styles } from "@styles";
+import { useMovieDB } from "@hooks";
 
 interface ISearchResults {
   isLoading: boolean;
@@ -97,7 +97,7 @@ const SearchResults = ({
       aria-disabled={true}
       onIntersect={onIntersectHandler}
       isLoading={isLoading}
-      layout={Grid}
+      layout={Styles.Grid}
     >
       {cardItems}
     </Container>

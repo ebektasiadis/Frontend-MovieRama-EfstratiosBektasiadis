@@ -1,5 +1,5 @@
 import { forwardRef, useContext } from "react";
-import { StyledCard, Poster } from "@styles/Card.styled";
+import { CardStyles as Styles } from "@styles";
 import { MovieContext } from "@src/App";
 interface ICardProps {
   id: number;
@@ -11,13 +11,13 @@ const Card = forwardRef<any, ICardProps>(
   ({ id, title, poster }: ICardProps, ref) => {
     const { setSelectedMovie } = useContext(MovieContext);
     return (
-      <StyledCard
+      <Styles.StyledCard
         ref={ref}
         aria-label={title}
         data-testid="card"
         onClick={() => setSelectedMovie(id)}
       >
-        <Poster
+        <Styles.Poster
           data-testid="poster-img"
           loading="lazy"
           alt={title}
@@ -27,7 +27,7 @@ const Card = forwardRef<any, ICardProps>(
               : `/movie-poster-placeholder.png`
           }
         />
-      </StyledCard>
+      </Styles.StyledCard>
     );
   }
 );

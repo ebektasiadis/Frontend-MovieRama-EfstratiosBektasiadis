@@ -1,13 +1,6 @@
 import { ReactElement } from "react";
 import { GlobalHotKeys } from "react-hotkeys";
-import {
-  ModalBackground,
-  StyledModal,
-  Header,
-  HeaderTitle,
-  CloseImg,
-  Body,
-} from "@styles/Modal.styled";
+import { ModalStyles as Styles } from "@styles";
 
 interface IModalProps {
   header: string;
@@ -29,15 +22,20 @@ const Modal = ({ header, children, onHide }: IModalProps) => {
 
   return (
     <GlobalHotKeys keyMap={keyMap} handlers={handlers}>
-      <ModalBackground onClick={() => onHide()}>
-        <StyledModal onClick={(e) => e.stopPropagation()}>
-          <Header>
-            <HeaderTitle aria-label={header}>{header}</HeaderTitle>
-            <CloseImg onClick={() => onHide()} aria-label={"Close modal"} />
-          </Header>
-          <Body>{children}</Body>
-        </StyledModal>
-      </ModalBackground>
+      <Styles.ModalBackground onClick={() => onHide()}>
+        <Styles.StyledModal onClick={(e) => e.stopPropagation()}>
+          <Styles.Header>
+            <Styles.HeaderTitle aria-label={header}>
+              {header}
+            </Styles.HeaderTitle>
+            <Styles.CloseImg
+              onClick={() => onHide()}
+              aria-label={"Close modal"}
+            />
+          </Styles.Header>
+          <Styles.Body>{children}</Styles.Body>
+        </Styles.StyledModal>
+      </Styles.ModalBackground>
     </GlobalHotKeys>
   );
 };

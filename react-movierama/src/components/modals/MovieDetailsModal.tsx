@@ -1,12 +1,7 @@
-import { Movie, Review } from "@dtypes";
 import { useEffect, useMemo, useState } from "react";
-import useMovieDB from "@hooks/useMovieDB";
-import {
-  Grid,
-  TrailerFrame,
-  Similar,
-  Reviews,
-} from "@styles/modals/MovieDetailsModal.styled";
+import { Movie, Review } from "@dtypes";
+import { useMovieDB } from "@hooks";
+import { MovieDetailsModalStyles as Styles } from "@styles";
 import { Card, Modal, Container, Review as ReviewComponent } from "@components";
 
 interface IMovieDetailsModalProps {
@@ -129,16 +124,16 @@ const MovieDetailsModal = ({ movieId, onHide }: IMovieDetailsModalProps) => {
       onHide={onHide}
       aria-label={"Movie Details Modal"}
     >
-      <Grid>
+      <Styles.Grid>
         {trailer ? (
-          <TrailerFrame
+          <Styles.TrailerFrame
             src={`https://www.youtube-nocookie.com/embed/${trailer}?autoplay=1`}
             aria-label={"Movie trailer"}
           />
         ) : null}
         {reviews ? (
           <Container
-            layout={Reviews}
+            layout={Styles.Reviews}
             onIntersect={onReviewIntersectHandler}
             isLoading={isLoadingReviews}
             aria-label={"Reviews"}
@@ -148,7 +143,7 @@ const MovieDetailsModal = ({ movieId, onHide }: IMovieDetailsModalProps) => {
         ) : null}
         {similar ? (
           <Container
-            layout={Similar}
+            layout={Styles.Similar}
             onIntersect={onSimilarIntersectHandler}
             isLoading={isLoadingSimilar}
             aria-label={"Similar movies"}
@@ -156,7 +151,7 @@ const MovieDetailsModal = ({ movieId, onHide }: IMovieDetailsModalProps) => {
             {similarItems}
           </Container>
         ) : null}
-      </Grid>
+      </Styles.Grid>
     </Modal>
   );
 };

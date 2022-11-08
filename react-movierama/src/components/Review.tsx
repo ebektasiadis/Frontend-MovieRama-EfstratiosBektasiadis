@@ -1,12 +1,5 @@
 import { forwardRef } from "react";
-import {
-  StyledReview,
-  Header,
-  Avatar,
-  Author,
-  CreatedAt,
-  Body,
-} from "@styles/Review.styled";
+import { ReviewStyles as Styles } from "@styles";
 
 interface IReviewProps {
   avatar: string;
@@ -18,19 +11,19 @@ interface IReviewProps {
 const Review = forwardRef<any, IReviewProps>(
   ({ avatar, author, createdAt, content }: IReviewProps, ref) => {
     return (
-      <StyledReview ref={ref}>
-        <Header>
-          <Avatar
+      <Styles.StyledReview ref={ref}>
+        <Styles.Header>
+          <Styles.Avatar
             loading="lazy"
             src={`https://secure.gravatar.com/avatar/${avatar}`}
           />
-          <Author>{author}</Author>
-          <CreatedAt>{createdAt}</CreatedAt>
-        </Header>
-        <Body>
+          <Styles.Author>{author}</Styles.Author>
+          <Styles.CreatedAt>{createdAt}</Styles.CreatedAt>
+        </Styles.Header>
+        <Styles.Body>
           <p>{content}</p>
-        </Body>
-      </StyledReview>
+        </Styles.Body>
+      </Styles.StyledReview>
     );
   }
 );
