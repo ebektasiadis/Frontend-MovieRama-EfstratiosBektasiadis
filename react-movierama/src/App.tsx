@@ -12,14 +12,14 @@ import useMovieDB from "@hooks/useMovieDB";
 import MovieContainer from "@components/Container";
 import { Grid } from "@styles/Layouts.styled";
 import CardDetailed from "@components/CardDetailed";
+import { Movie } from "@dtypes/index";
+import { MovieListResponse } from "@dtypes/responses";
 
-const MovieDetailsModal = lazy(
-  () => import("./components/modals/MovieDetailsModal")
-);
+const MovieDetailsModal = lazy(() => import("@modals/MovieDetailsModal"));
 
 export const MovieContext = createContext({
   selectedMovie: 0,
-  genres: [],
+  genres: [] as any[],
   setSelectedMovie: (id: number) => {},
 });
 
@@ -28,7 +28,7 @@ const App = () => {
   const [toSearch, setToSearch] = useState("");
   const [page, setPage] = useState(1);
   const [hasMore, setHasMore] = useState(true);
-  const [movies, setMovies] = useState<any[]>([]);
+  const [movies, setMovies] = useState<Movie[]>([]);
 
   const [selectedMovie, setSelectedMovie] = useState(0);
 
@@ -58,11 +58,24 @@ const App = () => {
       (!query && (isLoading || isError))
     )
       return;
-    setHasMore(page <= (query ? searchResults.total_pages : data.total_pages));
-    setMovies((prev) => [
-      ...(page > 1 ? prev : []),
-      ...(query ? searchResults.results : data.results),
-    ]);
+
+    const totalPages = query ? searchResults.total_pages : data.total_pages;
+    const newMoviesResponse: MovieListResponse = query ? searchResults : data;
+
+    setHasMore(page <= totalPages);
+
+    const newMovies: Movie[] = newMoviesResponse.results.map((movie) => ({
+      id: movie.id,
+      title: movie.title,
+      releaseYear: movie.release_date,
+      genres: [] as string[],
+      rating: movie.vote_average,
+      ratingCount: movie.vote_count,
+      overview: movie.overview,
+      poster: movie.poster_path,
+    }));
+
+    setMovies((prev) => [...(page > 1 ? prev : []), ...newMovies]);
   }, [
     isLoading,
     isLoadingSearchResults,
@@ -110,19 +123,7 @@ const App = () => {
         if (ids.has(movie.id)) return undefined;
         ids.add(movie.id);
 
-        return (
-          <CardDetailed
-            key={movie.id}
-            id={movie.id}
-            poster={movie.poster_path}
-            title={movie.title}
-            releaseYear={movie.release_date}
-            genres={movie.genre_ids}
-            rating={movie.vote_average}
-            ratingCount={movie.vote_count}
-            overview={movie.overview}
-          />
-        );
+        return <CardDetailed key={movie.id} {...movie} />;
       })
       .filter((card: any) => card !== undefined);
   }, [movies]);
