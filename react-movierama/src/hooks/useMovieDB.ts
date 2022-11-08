@@ -1,12 +1,20 @@
+import {
+  MovieDetailsResponse,
+  MovieGenresResponse,
+  MovieListResponse,
+  MovieReviewsResponse,
+  MovieSimilarResponse,
+  MovieVideosResponse,
+} from "@dtypes/responses";
 import axios, { AxiosInstance } from "axios";
 import { useEffect, useMemo, useReducer } from "react";
 
-type State = {
+type State<T> = {
   isLoading: boolean;
   isError: boolean;
   isSuccess: boolean;
-  data?: any;
-  error?: any;
+  data?: T;
+  error?: T;
 };
 
 enum ActionType {
@@ -20,13 +28,13 @@ type Action = {
   payload?: any;
 };
 
-const initialState: State = {
+const initialState: State<undefined> = {
   isLoading: true,
   isError: false,
   isSuccess: false,
 };
 
-const reducer = (state: State, action: Action): State => {
+const reducer = <T>(state: State<T>, action: Action): State<T> => {
   switch (action.type) {
     case ActionType.RequestInit:
       return {
@@ -66,40 +74,60 @@ const requestFailedAction = (payload: any): Action => ({
 });
 
 const useFetchMovieDetails = ({ id, instance }: any) => {
-  return useRequest(instance, `/movie/${id}`, id);
+  return useRequest<MovieDetailsResponse>(instance, `/movie/${id}`, id);
 };
 
 const useFetchMovieVideos = ({ id, instance }: any) => {
-  return useRequest(instance, `/movie/${id}/videos`, id);
+  return useRequest<MovieVideosResponse>(instance, `/movie/${id}/videos`, id);
 };
 
 const useFetchMovieReviews = ({ id, instance, page }: any) => {
   const options = useMemo(() => ({ params: { page } }), [page]);
-  return useRequest(instance, `/movie/${id}/reviews`, id, options);
+  return useRequest<MovieReviewsResponse>(
+    instance,
+    `/movie/${id}/reviews`,
+    id,
+    options
+  );
 };
 
 const useFetchMovieSimilar = ({ id, instance, page }: any) => {
   const options = useMemo(() => ({ params: { page } }), [page]);
-  return useRequest(instance, `/movie/${id}/similar`, id, options);
+  return useRequest<MovieSimilarResponse>(
+    instance,
+    `/movie/${id}/similar`,
+    id,
+    options
+  );
 };
 
 const useFetchNowPlaying = ({ page, instance, canExec }: any) => {
   const options = useMemo(() => ({ params: { page } }), [page]);
 
-  return useRequest(instance, "/movie/now_playing", canExec, options);
+  return useRequest<MovieListResponse>(
+    instance,
+    "/movie/now_playing",
+    canExec,
+    options
+  );
 };
 
 const useFetchSearchResults = ({ page, query, instance, canExec }: any) => {
   const options = useMemo(() => ({ params: { page, query } }), [page, query]);
 
-  return useRequest(instance, "/search/movie", canExec, options);
+  return useRequest<MovieListResponse>(
+    instance,
+    "/search/movie",
+    canExec,
+    options
+  );
 };
 
 const useFetchGenres = ({ instance }: any) => {
-  return useRequest(instance, "/genre/movie/list", true);
+  return useRequest<MovieGenresResponse>(instance, "/genre/movie/list", true);
 };
 
-const useRequest = (
+const useRequest = <T>(
   instance: AxiosInstance,
   url: string,
   exec: boolean,
@@ -122,7 +150,7 @@ const useRequest = (
     if (exec) main();
   }, [instance, url, options, exec]);
 
-  return { ...state };
+  return { ...state, data: state.data as T };
 };
 
 const useMovieDB = (apiKey: string, language = "en-US") => {
