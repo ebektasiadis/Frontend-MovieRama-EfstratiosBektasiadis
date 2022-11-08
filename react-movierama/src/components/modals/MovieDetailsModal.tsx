@@ -31,8 +31,7 @@ const MovieDetailsModal = ({ movieId, onHide }: IMovieDetailsModalProps) => {
   } = useMovieDB(process.env.REACT_APP_MOVIEDB_API_KEY || "");
 
   const { data: details } = useFetchMovieDetails(movieId);
-  const { data: videos, isLoading: isLoadingVideos } =
-    useFetchMovieVideos(movieId);
+  const { data: videos } = useFetchMovieVideos(movieId);
   const { data: dataReviews, isLoading: isLoadingReviews } =
     useFetchMovieReviews(movieId, reviewPage);
   const { data: dataSimilar, isLoading: isLoadingSimilar } =
