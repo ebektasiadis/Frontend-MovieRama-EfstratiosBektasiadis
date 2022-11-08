@@ -1,19 +1,19 @@
 import { RequestState, Action, RequestActionType as ActionType } from "@dtypes";
 
-export const requestInitialState: RequestState<undefined> = {
+export const initialState: RequestState<undefined> = {
   isLoading: true,
   isError: false,
   isSuccess: false,
 };
 
-export const requestReducer = <T>(
+export const reducer = <T>(
   state: RequestState<T>,
   action: Action<ActionType>
 ): RequestState<T> => {
   switch (action.type) {
     case ActionType.RequestInit:
       return {
-        ...requestInitialState,
+        ...initialState,
       };
     case ActionType.RequestCompleted:
       return {

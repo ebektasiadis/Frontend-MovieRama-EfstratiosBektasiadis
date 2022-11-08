@@ -27,10 +27,12 @@
       "@hooks": ["./hooks"],
       "@hooks/*": ["./hooks/*"],
       "@dtypes": ["./types"],
-      "@actions": ["/actions"],
-      "@actions/*": ["/actions/*"],
-      "@reducers": ["/reducers"],
-      "@reducers/*": ["/reducers/*"]
+      "@actions": ["./actions"],
+      "@actions/*": ["./actions/*"],
+      "@reducers": ["./reducers"],
+      "@reducers/*": ["./reducers/*"],
+      "@contexts": ["./contexts"],
+      "@contexts/*": ["./contexts/*"]
     }
   },
   "include": ["src"]

@@ -1,2 +1,2 @@
-export * from "./requestReducer";
-export * from "./searchResultsReducer";
+export * as request from "./requestReducer";
+export * as searchResults from "./searchResultsReducer";

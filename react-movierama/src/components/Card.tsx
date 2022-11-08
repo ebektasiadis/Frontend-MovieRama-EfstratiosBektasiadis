@@ -1,6 +1,6 @@
-import { forwardRef, useContext } from "react";
+import { forwardRef } from "react";
 import { CardStyles as Styles } from "@styles";
-import { MovieContext } from "@src/App";
+import { MovieContext } from "@contexts";
 interface ICardProps {
   id: number;
   title: string;
@@ -9,7 +9,7 @@ interface ICardProps {
 
 const Card = forwardRef<any, ICardProps>(
   ({ id, title, poster }: ICardProps, ref) => {
-    const { setSelectedMovie } = useContext(MovieContext);
+    const { setSelectedMovie } = MovieContext.useMovieContext();
     return (
       <Styles.StyledCard
         ref={ref}

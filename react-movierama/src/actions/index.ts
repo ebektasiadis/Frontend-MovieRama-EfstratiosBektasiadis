@@ -1,2 +1,2 @@
-export * from "./requestActions";
-export * from "./searchResultsActions";
+export * as requestActions from "./requestActions";
+export * as searchResultsActions from "./searchResultsActions";

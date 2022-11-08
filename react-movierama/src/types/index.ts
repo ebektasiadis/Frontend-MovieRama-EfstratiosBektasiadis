@@ -35,6 +35,15 @@ export type SearchResultsState = {
 };
 
 /**
+ * Contexts
+ */
+
+export interface MovieContextState {
+  selectedMovie: number;
+  setSelectedMovie: (id: number) => void;
+}
+
+/**
  * Action Types
  */
 

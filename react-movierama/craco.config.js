@@ -10,6 +10,7 @@ module.exports = {
       "@dtypes": path.resolve(__dirname, "src/types"),
       "@actions": path.resolve(__dirname, "src/actions"),
       "@reducers": path.resolve(__dirname, "src/reducers"),
+      "@contexts": path.resolve(__dirname, "src/contexts"),
     },
   },
   jest: {

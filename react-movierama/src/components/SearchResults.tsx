@@ -1,8 +1,11 @@
-import { useEffect, useMemo, useState } from "react";
+import { Suspense, useEffect, useMemo, useState, lazy } from "react";
 import { Movie, MovieListResponse } from "@dtypes";
 import { CardDetailed, Container } from "@components";
 import { LayoutStyles as Styles } from "@styles";
 import { useMovieDB } from "@hooks";
+import { MovieContext } from "@contexts";
+
+const MovieDetailsModal = lazy(() => import("@modals/MovieDetailsModal"));
 
 interface ISearchResults {
   isLoading: boolean;
@@ -20,6 +23,8 @@ const SearchResults = ({
   const [hasMore, setHasMore] = useState(true);
   const [movies, setMovies] = useState<Movie[]>([]);
   const [genreMap, setGenreMap] = useState<Map<number, string>>(new Map());
+
+  const { selectedMovie, setSelectedMovie } = MovieContext.useMovieContext();
 
   const { useFetchGenres } = useMovieDB(
     process.env.REACT_APP_MOVIEDB_API_KEY || ""
@@ -62,6 +67,18 @@ const SearchResults = ({
     setMovies((prev) => [...(data.page > 1 ? prev : []), ...newMovies]);
   }, [isLoading, isError, data, genreMap]);
 
+  /**
+   * Disables background scroll (document) when a modal is open.
+   * Should be replaced with a better approach
+   */
+  useEffect(() => {
+    if (selectedMovie) {
+      document.body.style.overflow = "hidden";
+      return;
+    }
+    document.body.style.overflow = "auto";
+  }, [selectedMovie]);
+
   const cardItems = useMemo(() => {
     const ids = new Set();
     if (!movies) return [];
@@ -93,14 +110,24 @@ const SearchResults = ({
   };
 
   return (
-    <Container
-      aria-disabled={true}
-      onIntersect={onIntersectHandler}
-      isLoading={isLoading}
-      layout={Styles.Grid}
-    >
-      {cardItems}
-    </Container>
+    <>
+      <Container
+        aria-disabled={true}
+        onIntersect={onIntersectHandler}
+        isLoading={isLoading}
+        layout={Styles.Grid}
+      >
+        {cardItems}
+      </Container>
+      {selectedMovie ? (
+        <Suspense fallback={"Fetching"}>
+          <MovieDetailsModal
+            movieId={selectedMovie}
+            onHide={() => setSelectedMovie(0)}
+          ></MovieDetailsModal>
+        </Suspense>
+      ) : null}
+    </>
   );
 };
 

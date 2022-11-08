@@ -6,15 +6,8 @@ import {
   MovieSimilarResponse,
   MovieVideosResponse,
 } from "@dtypes";
-import {
-  requestCompleteAction,
-  requestFailedAction,
-  requestInitAction,
-} from "@src/actions/requestActions";
-import {
-  requestInitialState as initialState,
-  requestReducer as reducer,
-} from "@src/reducers/requestReducer";
+import { requestActions as actions } from "@actions";
+import { request } from "@reducers";
 import axios, { AxiosInstance, AxiosResponse } from "axios";
 import { useEffect, useMemo, useReducer } from "react";
 
@@ -78,18 +71,18 @@ const useRequest = <T>(
   exec: boolean,
   options?: any
 ) => {
-  const [state, dispatch] = useReducer(reducer, initialState);
+  const [state, dispatch] = useReducer(request.reducer, request.initialState);
 
   useEffect(() => {
     const main = async () => {
       try {
-        dispatch(requestInitAction());
+        dispatch(actions.requestInitAction());
         const response: AxiosResponse<T> = await instance.get(url, {
           ...options,
         });
-        dispatch(requestCompleteAction(response.data));
+        dispatch(actions.requestCompleteAction(response.data));
       } catch (error) {
-        dispatch(requestFailedAction(error));
+        dispatch(actions.requestFailedAction(error));
       }
     };
     if (exec) main();

@@ -1,6 +1,6 @@
-import { forwardRef, useContext, useMemo } from "react";
+import { forwardRef, useMemo } from "react";
 import { CardDetailedStyles as Styles } from "@styles";
-import { MovieContext } from "@src/App";
+import { MovieContext } from "@contexts";
 
 interface ICardDetailedProps {
   id: number;
@@ -27,7 +27,7 @@ const CardDetailed = forwardRef<any, ICardDetailedProps>(
     }: ICardDetailedProps,
     ref
   ) => {
-    const { setSelectedMovie } = useContext(MovieContext);
+    const { setSelectedMovie } = MovieContext.useMovieContext();
 
     const genreListItems = useMemo(() => {
       return genres.map((name) => <li key={name}>{name}</li>);

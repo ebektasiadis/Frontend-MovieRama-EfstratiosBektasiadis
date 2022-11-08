@@ -4,12 +4,12 @@ import {
   SearchResultsActionType as ActionType,
 } from "@src/types";
 
-export const searchResultsInitialState: SearchResultsState = {
+export const initialState: SearchResultsState = {
   page: 1,
   searchQuery: "",
 };
 
-export const searchResultsReducer = (
+export const reducer = (
   state: SearchResultsState,
   action: Action<ActionType>
 ): SearchResultsState => {
