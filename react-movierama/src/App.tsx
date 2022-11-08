@@ -139,6 +139,7 @@ const App = () => {
       <div className="App">
         <Header query={query} setQuery={onChangeHandler} />
         <Container
+          aria-disabled={true}
           onIntersect={onIntersectHandler}
           isLoading={isLoadingResults}
           layout={Grid}

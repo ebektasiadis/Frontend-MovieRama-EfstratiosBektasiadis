@@ -32,8 +32,8 @@ function Modal({ header, children, onHide }: IModalProps) {
       <ModalBackground onClick={() => onHide()}>
         <StyledModal onClick={(e) => e.stopPropagation()}>
           <Header>
-            <HeaderTitle>{header}</HeaderTitle>
-            <CloseImg onClick={() => onHide()} />
+            <HeaderTitle aria-label={header}>{header}</HeaderTitle>
+            <CloseImg onClick={() => onHide()} aria-label={"Close modal"} />
           </Header>
           <Body>{children}</Body>
         </StyledModal>

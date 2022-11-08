@@ -6,7 +6,7 @@ import {
   TrailerFrame,
   Similar,
   Reviews,
-} from "@components/styles/modals/MovieDetailsModal.styled";
+} from "@styles/modals/MovieDetailsModal.styled";
 import { Card, Modal, Container, Review as ReviewComponent } from "@components";
 
 interface IMovieDetailsModalProps {
@@ -124,11 +124,16 @@ const MovieDetailsModal = ({ movieId, onHide }: IMovieDetailsModalProps) => {
   }, [similar]);
 
   return (
-    <Modal header={details ? details.title : ""} onHide={onHide}>
+    <Modal
+      header={details ? details.title : ""}
+      onHide={onHide}
+      aria-label={"Movie Details Modal"}
+    >
       <Grid>
         {trailer ? (
           <TrailerFrame
             src={`https://www.youtube-nocookie.com/embed/${trailer}?autoplay=1`}
+            aria-label={"Movie trailer"}
           />
         ) : null}
         {reviews ? (
@@ -136,6 +141,7 @@ const MovieDetailsModal = ({ movieId, onHide }: IMovieDetailsModalProps) => {
             layout={Reviews}
             onIntersect={onReviewIntersectHandler}
             isLoading={isLoadingReviews}
+            aria-label={"Reviews"}
           >
             {reviewItems}
           </Container>
@@ -145,6 +151,7 @@ const MovieDetailsModal = ({ movieId, onHide }: IMovieDetailsModalProps) => {
             layout={Similar}
             onIntersect={onSimilarIntersectHandler}
             isLoading={isLoadingSimilar}
+            aria-label={"Similar movies"}
           >
             {similarItems}
           </Container>

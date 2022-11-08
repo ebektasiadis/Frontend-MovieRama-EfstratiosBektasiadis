@@ -8,7 +8,7 @@ import {
   Detail,
   Overview,
 } from "@styles/CardDetailed.styled";
-import { MovieContext } from "../App";
+import { MovieContext } from "@src/App";
 
 interface ICardDetailedProps {
   id: number;
@@ -47,6 +47,7 @@ const CardDetailed = forwardRef<any, ICardDetailedProps>(
     return (
       <StyledCardDetailed
         data-testid="card"
+        aria-label={title}
         ref={ref}
         onClick={() => setSelectedMovie(id)}
       >
@@ -72,7 +73,7 @@ const CardDetailed = forwardRef<any, ICardDetailedProps>(
             <Detail>{`Rating: ${rating} / 10 (${ratingCount} votes)`}</Detail>
           ) : null}
         </Details>
-        <Overview>{overview}</Overview>
+        <Overview aria-label={overview}>{overview}</Overview>
       </StyledCardDetailed>
     );
   }

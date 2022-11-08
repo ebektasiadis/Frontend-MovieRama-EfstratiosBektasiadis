@@ -52,6 +52,7 @@
   },
   "jest": {
     "moduleNameMapper": {
+      "^@src(.*)$": "<rootDir>/src/$1",
       "^@components(.*)$": "<rootDir>/src/components/$1",
       "^@styles(.*)$": "<rootDir>/src/components/styles/$1",
       "^@modals(.*)$": "<rootDir>/src/components/modals/$1",

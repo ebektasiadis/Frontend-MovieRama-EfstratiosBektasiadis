@@ -34,7 +34,7 @@ function Header({ query, setQuery }: IHeaderProps) {
     <GlobalHotKeys keyMap={keyMap} handlers={handlers}>
       <StyledHeader>
         <Logo onClick={() => window.location.reload()}>
-          <Image src="/logo192.png" alt="MovieRama" />
+          <Image src="/logo192.png" alt="MovieRama" aria-label="MovieRama" />
           <LogoName>MovieRama</LogoName>
         </Logo>
         <SearchBar>
@@ -45,7 +45,7 @@ function Header({ query, setQuery }: IHeaderProps) {
             value={query}
             ref={searchFieldRef}
           ></SearchInput>
-          <KbdCombination>
+          <KbdCombination aria-label={"Press CTRL and Capital F to search"}>
             <Kbd>CTRL</Kbd>+<Kbd>F</Kbd>
           </KbdCombination>
         </SearchBar>

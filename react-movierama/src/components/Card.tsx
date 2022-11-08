@@ -1,6 +1,6 @@
 import { forwardRef, useContext } from "react";
 import { StyledCard, Poster } from "@styles/Card.styled";
-import { MovieContext } from "../App";
+import { MovieContext } from "@src/App";
 interface ICardProps {
   id: number;
   title: string;
@@ -13,6 +13,7 @@ const Card = forwardRef<any, ICardProps>(
     return (
       <StyledCard
         ref={ref}
+        aria-label={title}
         data-testid="card"
         onClick={() => setSelectedMovie(id)}
       >
