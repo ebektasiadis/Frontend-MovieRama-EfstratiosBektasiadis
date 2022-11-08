@@ -3,7 +3,7 @@ import styled from "styled-components";
 import useMovieDB from "../../hooks/useMovieDB";
 import Card from "../Card";
 import Modal from "../Modal";
-import { Review } from "../Review";
+import Review from "../Review";
 
 const Grid = styled.div`
   display: grid;
@@ -17,7 +17,7 @@ const Grid = styled.div`
     "similar similar";
   gap: 10px;
 
-  @media screen and (max-width: 1440px) {
+  @media screen and (max-width: 1200px) {
     aspect-ratio: unset;
     max-height: 80vh;
     overflow: hidden;

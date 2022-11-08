@@ -5,17 +5,11 @@ import CardDetailed from "./CardDetailed";
 const Grid = styled.div`
   padding: 50px;
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
   gap: 50px;
 
-  @media screen and (max-width: 1440px) {
-    padding: 10px;
-    grid-template-columns: repeat(2, 1fr);
-  }
-
-  @media screen and (max-width: 992px) {
-    padding: 10px;
-    grid-template-columns: 1fr;
+  @media screen and (max-width: 1200px) {
+    padding: 25px 10px;
   }
 `;
 

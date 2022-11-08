@@ -16,7 +16,7 @@ const StyledHeader = styled.header`
   height: 5em;
   align-items: center;
 
-  @media screen and (max-width: 1440px) {
+  @media screen and (max-width: 1200px) {
     padding: 0 10px;
   }
 

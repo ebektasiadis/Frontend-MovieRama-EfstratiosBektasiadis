@@ -42,12 +42,7 @@ interface IReviewProps {
   content: string;
 }
 
-export const Review = ({
-  avatar,
-  author,
-  createdAt,
-  content,
-}: IReviewProps) => {
+const Review = ({ avatar, author, createdAt, content }: IReviewProps) => {
   return (
     <StyledReview>
       <Header>
@@ -64,3 +59,5 @@ export const Review = ({
     </StyledReview>
   );
 };
+
+export default Review;
