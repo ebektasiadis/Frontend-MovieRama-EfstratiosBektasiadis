@@ -6,7 +6,7 @@ import {
   MovieSimilarResponse,
   MovieVideosResponse,
 } from "@dtypes/responses";
-import axios, { AxiosInstance } from "axios";
+import axios, { AxiosInstance, AxiosResponse } from "axios";
 import { useEffect, useMemo, useReducer } from "react";
 
 type State<T> = {
@@ -139,7 +139,7 @@ const useRequest = <T>(
     const main = async () => {
       try {
         dispatch(requestInitAction());
-        const response = await instance.get(url, {
+        const response: AxiosResponse<T> = await instance.get(url, {
           ...options,
         });
         dispatch(requestCompleteAction(response.data));

@@ -53,7 +53,7 @@
     "moduleNameMapper": {
       "^@src(.*)$": "<rootDir>/src/$1",
       "^@components(.*)$": "<rootDir>/src/components/$1",
-      "^@styles(.*)$": "<rootDir>/src/components/styles/$1",
+      "^@styles(.*)$": "<rootDir>/src/styles/$1",
       "^@modals(.*)$": "<rootDir>/src/components/modals/$1",
       "^@hooks(.*)$": "<rootDir>/src/hooks/$1",
       "^@dtypes(.*)$": "<rootDir>/src/types/$1"

@@ -20,7 +20,7 @@
       "@src/*": ["./*"],
       "@components": ["./components/"],
       "@components/*": ["./components/*"],
-      "@styles/*": ["./components/styles/*"],
+      "@styles/*": ["./styles/*"],
       "@modals/*": ["./components/modals/*"],
       "@hooks/*": ["./hooks/*"],
       "@dtypes/*": ["./types/*"]
