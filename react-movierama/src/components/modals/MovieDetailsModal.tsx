@@ -3,6 +3,7 @@ import { Movie, Review } from "@dtypes";
 import { useMovieDB } from "@hooks";
 import { MovieDetailsModalStyles as Styles } from "@styles";
 import { Card, Modal, Container, Review as ReviewComponent } from "@components";
+import { mapResponseToMovies, mapResponseToReviews } from "@src/utils";
 
 interface IMovieDetailsModalProps {
   movieId: number;
@@ -49,15 +50,7 @@ const MovieDetailsModal = ({ movieId, onHide }: IMovieDetailsModalProps) => {
   useEffect(() => {
     if (isLoadingReviews) return;
     if (reviewPage === dataReviews.total_pages) setReviewHasMore(false);
-
-    const newReviews: Review[] = dataReviews.results.map((review) => ({
-      id: review.id,
-      avatar: review.author_details.avatar_path,
-      author: review.author,
-      createdAt: review.created_at,
-      content: review.content,
-    }));
-
+    const newReviews: Review[] = mapResponseToReviews(dataReviews);
     setReviews((prev) => [...(reviewPage > 1 ? prev : []), ...newReviews]);
   }, [reviewPage, isLoadingReviews, dataReviews]);
 
@@ -65,16 +58,7 @@ const MovieDetailsModal = ({ movieId, onHide }: IMovieDetailsModalProps) => {
     if (isLoadingSimilar) return;
     if (similarPage === dataSimilar.total_pages) setSimilarHasMore(false);
 
-    const newSimilar: Movie[] = dataSimilar.results.map((movie) => ({
-      id: movie.id,
-      title: movie.title,
-      releaseYear: movie.release_date,
-      genres: [] as string[],
-      rating: movie.vote_average,
-      ratingCount: movie.vote_count,
-      overview: movie.overview,
-      poster: movie.poster_path,
-    }));
+    const newSimilar: Movie[] = mapResponseToMovies(dataSimilar);
 
     setSimilar((prev: any) => [
       ...(similarPage > 1 ? prev : []),
@@ -94,28 +78,24 @@ const MovieDetailsModal = ({ movieId, onHide }: IMovieDetailsModalProps) => {
     const ids = new Set();
     if (!reviews) return [];
 
-    return reviews
-      .map((review) => {
-        if (ids.has(review.id)) return undefined;
-        ids.add(review.id);
+    return reviews.map((review) => {
+      if (ids.has(review.id)) return undefined;
+      ids.add(review.id);
 
-        return <ReviewComponent key={review.id} {...review} />;
-      })
-      .filter((review?) => review);
+      return <ReviewComponent key={review.id} {...review} />;
+    });
   }, [reviews]);
 
   const similarItems = useMemo(() => {
     const ids = new Set();
     if (!similar) return [];
 
-    return similar
-      .map((similar) => {
-        if (ids.has(similar.id)) return undefined;
-        ids.add(similar.id);
+    return similar.map((similar) => {
+      if (ids.has(similar.id)) return undefined;
+      ids.add(similar.id);
 
-        return <Card key={similar.id} {...similar} />;
-      })
-      .filter((similar?) => similar !== undefined);
+      return <Card key={similar.id} {...similar} />;
+    });
   }, [similar]);
 
   const hasTrailer = trailer.length > 0;

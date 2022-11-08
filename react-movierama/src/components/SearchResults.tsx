@@ -4,6 +4,7 @@ import { CardDetailed, Container } from "@components";
 import { LayoutStyles as Styles } from "@styles";
 import { useMovieDB } from "@hooks";
 import { MovieContext } from "@contexts";
+import { mapResponseToMovies } from "@src/utils";
 
 const MovieDetailsModal = lazy(() => import("@modals/MovieDetailsModal"));
 
@@ -51,18 +52,7 @@ const SearchResults = ({
     if (isLoading || isError) return;
     setHasMore(data.page < data.total_pages);
 
-    const newMovies: Movie[] = data.results.map((movie) => ({
-      id: movie.id,
-      title: movie.title,
-      releaseYear: movie.release_date,
-      genres: movie.genre_ids
-        .filter((genre) => genreMap.has(genre))
-        .map((genre) => genreMap.get(genre) || "Unknown category"),
-      rating: movie.vote_average,
-      ratingCount: movie.vote_count,
-      overview: movie.overview,
-      poster: movie.poster_path,
-    }));
+    const newMovies: Movie[] = mapResponseToMovies(data, genreMap);
 
     setMovies((prev) => [...(data.page > 1 ? prev : []), ...newMovies]);
   }, [isLoading, isError, data, genreMap]);
@@ -72,38 +62,27 @@ const SearchResults = ({
    * Should be replaced with a better approach
    */
   useEffect(() => {
-    if (selectedMovie) {
-      document.body.style.overflow = "hidden";
-      return;
-    }
-    document.body.style.overflow = "auto";
+    document.body.style.overflow = selectedMovie ? "hidden" : "auto";
   }, [selectedMovie]);
 
   const cardItems = useMemo(() => {
     const ids = new Set();
     if (!movies) return [];
 
-    return movies
-      .map((movie: any) => {
-        /**
-         * Issue with Movie DB sometimes responsing on different pages
-         * with the same movie, thus causing issues on Virtual DOM as
-         * some elements ends up having the same key.
-         */
-        if (ids.has(movie.id)) return undefined;
-        ids.add(movie.id);
+    return movies.map((movie: any) => {
+      /**
+       * Issue with Movie DB sometimes responsing on different pages
+       * with the same movie, thus causing issues on Virtual DOM as
+       * some elements ends up having the same key.
+       */
+      if (ids.has(movie.id)) return undefined;
+      ids.add(movie.id);
 
-        return <CardDetailed key={movie.id} {...movie} />;
-      })
-      .filter((card: any) => card !== undefined);
+      return <CardDetailed key={movie.id} {...movie} />;
+    });
   }, [movies]);
 
   const onIntersectHandler = () => {
-    console.log(
-      `intersecting and setting page to ${
-        data.page + 1
-      }, ${hasMore}, ${isLoading}`
-    );
     if (hasMore && !(isLoading || isError)) {
       setPage(data.page + 1);
     }
