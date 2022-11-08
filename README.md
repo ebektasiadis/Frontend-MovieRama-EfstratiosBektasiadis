@@ -20,7 +20,7 @@ Variable Name | Required | Description
 REACT_APP_MOVIEDB_API_KEY | ✅ | The API key that is being used when making requests to MovieDB.
 
 ## Feature Versions
-- 🎬 Language selection dropdown
+- 🎬 **Language selection** dropdown
 - 🎬 Search with filters such as **actors**, **categories**, **rating**
 - 🎬 Layout selection through **Grid**, **Category based rows**, **Poster Only**
 - 🎬 Theme Switch between **Light**, **Dark** and a super cool **Neon**
