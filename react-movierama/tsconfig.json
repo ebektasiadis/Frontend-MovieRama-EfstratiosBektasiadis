@@ -23,7 +23,7 @@
       "@styles/*": ["./styles/*"],
       "@modals/*": ["./components/modals/*"],
       "@hooks/*": ["./hooks/*"],
-      "@dtypes/*": ["./types/*"]
+      "@dtypes": ["./types/"]
     }
   },
   "include": ["src"]

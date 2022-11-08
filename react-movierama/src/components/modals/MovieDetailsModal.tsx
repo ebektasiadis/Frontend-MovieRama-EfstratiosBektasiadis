@@ -1,4 +1,4 @@
-import { Movie, Review } from "@dtypes/index";
+import { Movie, Review } from "@dtypes";
 import { useEffect, useMemo, useState } from "react";
 import useMovieDB from "@hooks/useMovieDB";
 import {

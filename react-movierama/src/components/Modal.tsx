@@ -15,7 +15,7 @@ interface IModalProps {
   onHide: Function;
 }
 
-function Modal({ header, children, onHide }: IModalProps) {
+const Modal = ({ header, children, onHide }: IModalProps) => {
   const keyMap = {
     CLOSE_MODAL: "esc",
   };
@@ -40,6 +40,6 @@ function Modal({ header, children, onHide }: IModalProps) {
       </ModalBackground>
     </GlobalHotKeys>
   );
-}
+};
 
 export default Modal;

@@ -6,9 +6,14 @@ import {
   Suspense,
   useReducer,
 } from "react";
-import { Header } from "@components";
+import { Header, SearchResults } from "@components";
 import useMovieDB from "@hooks/useMovieDB";
-import SearchResults from "./components/SearchResults";
+import {
+  SearchResultState,
+  SearchResultActionType as ActionType,
+  Action,
+  SearchResultActionType,
+} from "@dtypes";
 
 const MovieDetailsModal = lazy(() => import("@modals/MovieDetailsModal"));
 
@@ -19,27 +24,15 @@ export const MovieContext = createContext({
   setSelectedMovie: (id: number) => {},
 });
 
-type State = {
-  page: number;
-  searchQuery: string;
-};
-
-enum ActionType {
-  UpdateSearchQuery = "UPDATE_SEARCH_QUERY",
-  SetPage = "SET_PAGE",
-}
-
-type Action = {
-  type: ActionType;
-  payload?: any;
-};
-
-const initialState: State = {
+const initialState: SearchResultState = {
   page: 1,
   searchQuery: "",
 };
 
-const reducer = (state: State, action: Action): State => {
+const reducer = (
+  state: SearchResultState,
+  action: Action<SearchResultActionType>
+): SearchResultState => {
   switch (action.type) {
     case ActionType.UpdateSearchQuery:
       return { ...state, page: 1, searchQuery: action.payload };
@@ -50,12 +43,14 @@ const reducer = (state: State, action: Action): State => {
   }
 };
 
-const requestUpdateSearchQuery = (searchQuery: string): Action => ({
+const requestUpdateSearchQuery = (
+  searchQuery: string
+): Action<SearchResultActionType> => ({
   type: ActionType.UpdateSearchQuery,
   payload: searchQuery,
 });
 
-const requestSetPage = (page: number): Action => ({
+const requestSetPage = (page: number): Action<SearchResultActionType> => ({
   type: ActionType.SetPage,
   payload: page,
 });

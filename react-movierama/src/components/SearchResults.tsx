@@ -1,5 +1,4 @@
-import { Movie } from "@src/types";
-import { MovieListResponse } from "@src/types/responses";
+import { Movie, MovieListResponse } from "@dtypes";
 import { useEffect, useMemo, useState } from "react";
 import { CardDetailed, Container } from "@components";
 import { Grid } from "@styles/Layouts.styled";

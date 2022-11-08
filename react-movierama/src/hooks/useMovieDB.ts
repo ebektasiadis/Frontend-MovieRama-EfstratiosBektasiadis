@@ -1,40 +1,28 @@
 import {
+  Action,
   MovieDetailsResponse,
   MovieGenresResponse,
   MovieListResponse,
   MovieReviewsResponse,
   MovieSimilarResponse,
   MovieVideosResponse,
-} from "@dtypes/responses";
+  RequestActionType as ActionType,
+  RequestActionType,
+  RequestState,
+} from "@dtypes";
 import axios, { AxiosInstance, AxiosResponse } from "axios";
 import { useEffect, useMemo, useReducer } from "react";
 
-type State<T> = {
-  isLoading: boolean;
-  isError: boolean;
-  isSuccess: boolean;
-  data?: T;
-  error?: T;
-};
-
-enum ActionType {
-  RequestInit = "REQUEST_INIT",
-  RequestCompleted = "REQUEST_COMPLETED",
-  RequestFailed = "REQUEST_FAILED",
-}
-
-type Action = {
-  type: ActionType;
-  payload?: any;
-};
-
-const initialState: State<undefined> = {
+const initialState: RequestState<undefined> = {
   isLoading: true,
   isError: false,
   isSuccess: false,
 };
 
-const reducer = <T>(state: State<T>, action: Action): State<T> => {
+const reducer = <T>(
+  state: RequestState<T>,
+  action: Action<RequestActionType>
+): RequestState<T> => {
   switch (action.type) {
     case ActionType.RequestInit:
       return {
@@ -59,16 +47,16 @@ const reducer = <T>(state: State<T>, action: Action): State<T> => {
   }
 };
 
-const requestInitAction = (): Action => ({
+const requestInitAction = (): Action<RequestActionType> => ({
   type: ActionType.RequestInit,
 });
 
-const requestCompleteAction = (payload: any): Action => ({
+const requestCompleteAction = (payload: any): Action<RequestActionType> => ({
   type: ActionType.RequestCompleted,
   payload,
 });
 
-const requestFailedAction = (payload: any): Action => ({
+const requestFailedAction = (payload: any): Action<RequestActionType> => ({
   type: ActionType.RequestFailed,
   payload,
 });
