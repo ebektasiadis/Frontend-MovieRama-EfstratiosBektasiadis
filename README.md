@@ -14,7 +14,7 @@ This version of Movierama has been developed with no dependencies on third party
 
 On the other hand we have this version. Since React can make things simplier (or not🤣) for the developer, this version is enriched with more features than the plain one as well as it is easier to maintain and scale. Still I tried to keep the dependencies to bare minimum. The only dependencies used are **axios**, **styled-components** and **react-hotkeys**. This version also contains Unit Testing on most of the components, done by **Jest**. You can find a live demo of the app [here](https://movierama-ebektasiadis.vercel.app/ "here").
 
-####Environmental Variables:
+#### Environmental Variables:
 Variable Name | Required | Description
 |---|---|---|
 REACT_APP_MOVIEDB_API_KEY | ✅ | The API key that is being used when making requests to MovieDB.
